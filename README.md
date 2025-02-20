@@ -1,2 +1,5 @@
 # videoboxd-api
-Videoboxd backend API
+Videoboxd backend API  
+
+## Hono
+Hono has successfully installed
