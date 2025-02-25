@@ -1,13 +1,25 @@
 {
   "name": "videoboxd-api",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run src/index.ts",
+    "b": "bun run build",
+    "build": "bun install && bun db:migrate:deploy && bun db:gen",
+    "docker:up": "docker compose up -d",
+    "docker:up:prod": "docker compose -f docker-compose.prod.yml up -d",
+    "docker:build:prod": "docker compose -f docker-compose.prod.yml build",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:gen": "prisma generate --no-hints",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
     "@prisma/client": "^6.4.0",
     "@types/node": "^22.13.4",
     "hono": "^4.7.2",
     "prisma": "^6.4.0",
+    "prisma-dbml-generator": "^0.12.0",
     "tsx": "^4.19.3",
     "typescript": "^5.7.3"
   },
