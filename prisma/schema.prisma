@@ -12,3 +12,115 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  username   String   @unique
+  email      String   @unique
+  password   String
+  avatarUrl  String?
+  createdAt  DateTime @default(now())
+
+  reviews   Review[]
+  comments  Comment[]
+  playlists Playlist[]
+  likes     Like[]
+
+  following Follow[] @relation("UserFollowing")
+  followers Follow[] @relation("UserFollowers")
+}
+
+model Video {
+  id          Int       @id @default(autoincrement())
+  youtubeId   String    @unique
+  title       String
+  description String?
+  thumbnail   String?
+  uploadedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  reviews      Review[]
+  categories   VideoCategory[]
+  playlists    PlaylistVideo[]
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  userId     String   @db.Uuid
+  videoId    Int
+  rating     Int
+  reviewText String
+  createdAt  DateTime @default(now())
+
+  user       User   @relation(fields: [userId], references: [id])
+  video      Video  @relation(fields: [videoId], references: [id])
+  comments   Comment[]
+  likes      Like[]
+}
+
+model Comment {
+  id          Int      @id @default(autoincrement())
+  userId      String   @db.Uuid
+  reviewId    Int
+  commentText String
+  createdAt   DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  review Review @relation(fields: [reviewId], references: [id])
+}
+
+model Playlist {
+  id         Int      @id @default(autoincrement())
+  userId     String   @db.Uuid
+  name       String
+  createdAt  DateTime @default(now())
+
+  user      User   @relation(fields: [userId], references: [id])
+  videos    PlaylistVideo[]
+}
+
+model PlaylistVideo {
+  id          Int      @id @default(autoincrement())
+  playlistId  Int
+  videoId     Int
+  addedAt     DateTime @default(now())
+
+  playlist Playlist @relation(fields: [playlistId], references: [id])
+  video    Video    @relation(fields: [videoId], references: [id])
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+
+  videos VideoCategory[]
+}
+
+model VideoCategory {
+  id         Int      @id @default(autoincrement())
+  videoId    Int
+  categoryId Int
+
+  video    Video    @relation(fields: [videoId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  userId    String   @db.Uuid
+  reviewId  Int
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  review Review @relation(fields: [reviewId], references: [id])
+}
+
+model Follow {
+  id          Int      @id @default(autoincrement())
+  followerId  String   @db.Uuid
+  followingId String   @db.Uuid
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("UserFollowing", fields: [followerId], references: [id])
+  following User @relation("UserFollowers", fields: [followingId], references: [id])
+}
