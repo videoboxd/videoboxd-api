@@ -31,7 +31,12 @@ app.get(
 
 app.get("/videos", async (c) => {
   try {
-    const videos = await prisma.video.findMany();
+    const videos = await prisma.video.findMany({
+      include: {
+        platform: true,
+        categories: true,
+      },
+    });
     return c.json(videos);
   } catch (error) {
     console.error("Error fetching videos:", error);
