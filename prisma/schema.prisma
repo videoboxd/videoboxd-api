@@ -8,6 +8,10 @@ generator client {
   previewFeatures = ["relationJoins"]
 }
 
+generator zod {
+  provider = "zod-prisma-types"
+}
+
 generator dbml {
   provider = "prisma-dbml-generator"
 }
