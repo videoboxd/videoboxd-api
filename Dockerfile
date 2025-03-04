@@ -10,6 +10,8 @@ COPY . .
 
 # Install app dependencies
 RUN bun install
+RUN bun db:migrate:deploy
+RUN bun db:gen
 
 # Run the application
 CMD ["bun", "start"]
