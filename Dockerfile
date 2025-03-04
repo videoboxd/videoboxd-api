@@ -1,15 +1,15 @@
-FROM oven/bun:1.1 
+# Use the official Bun image with Debian Linux
+# Oven is the company name, the creator of Bun
+FROM oven/bun:1.1
 
-WORKDIR /app
+# Create and change to the app directory
+WORKDIR /usr/src/app
 
-COPY package.json /app
+# Copy app files
+COPY . .
 
+# Install app dependencies
 RUN bun install
 
-COPY . /app
-
-RUN bun prisma generate
-
-EXPOSE 3000
-
-CMD [ "bun", "start" ]
+# Run the application
+CMD ["bun", "start"]
