@@ -1,4 +1,7 @@
 import { Hono } from "hono";
+import { PrismaClient } from "@prisma/client";
+
+export const prisma = new PrismaClient();
 
 const app = new Hono();
 
@@ -6,21 +9,14 @@ app.get("/", (c) => {
   return c.text("Videoboxd API");
 });
 
-app.get("/videos", (c) => {
-  return c.json([
-    {
-      id: "abc",
-      title: "Video 1",
-      description: "This is a video",
-      url: "https://www.youtube.com/watch?v=abc",
-    },
-    {
-      id: "xyz",
-      title: "Video 2",
-      description: "This is a video",
-      url: "https://www.youtube.com/watch?v=xyz",
-    },
-  ]);
+app.get('/videos', async (c) => {
+  try {
+    const videos = await prisma.video.findMany();
+    return c.json(videos);
+  } catch (error) {
+    console.error('Error fetching videos:', error);
+    return c.json({ error: 'Failed to fetch videos' }, 500);
+  }
 });
 
 export default app;
