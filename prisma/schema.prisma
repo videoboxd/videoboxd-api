@@ -20,7 +20,7 @@ model User {
   id        String  @id @default(ulid())
   username  String  @unique
   email     String  @unique
-  password  String
+  password  String // hashed password, not plain string
   fullName  String
   avatarUrl String? // https://api.dicebear.com/9.x/open-peeps/svg?seed=SiapaNamanya
 

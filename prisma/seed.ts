@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 import { platforms } from "./data/platforms";
 import { categories } from "./data/categories";
+import { hashPassword } from "../src/lib/hash";
 
 const prisma = new PrismaClient();
 
@@ -31,14 +32,14 @@ async function main() {
     {
       username: "Dery",
       email: "dery@example.com",
-      password: "password123",
+      password: await hashPassword("password123"),
       fullName: "Dery",
       avatarUrl: "https://api.dicebear.com/9.x/open-peeps/svg?seed=UserOne",
     },
     {
       username: "Rifki",
       email: "rifki@example.com",
-      password: "password123",
+      password: await hashPassword("password123"),
       fullName: "Rifki",
       avatarUrl: "https://api.dicebear.com/9.x/open-peeps/svg?seed=UserTwo",
     },
