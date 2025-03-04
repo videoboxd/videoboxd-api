@@ -2,10 +2,6 @@ import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client";
 
 export const prisma = new PrismaClient();
-// TODO:
-// Setup openapi.json and scalar-hono-api-reference
-// import { OpenAPIHono } from "@hono/zod-openapi";
-// import { apiReference as scalarHonoApiReference } from "@scalar/hono-api-reference";
 
 const app = new Hono();
 
@@ -22,8 +18,5 @@ app.get('/videos', async (c) => {
     return c.json({ error: 'Failed to fetch videos' }, 500);
   }
 });
-
-// TODO:
-// /videos endpoint
 
 export default app;
