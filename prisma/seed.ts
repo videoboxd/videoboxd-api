@@ -1,42 +1,32 @@
 import { PrismaClient } from "@prisma/client";
-import { ulid } from "ulid";
+
+import { platforms } from "./data/platforms";
+import { categories } from "./data/categories";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding database...");
+  console.info("🏁 Start seeding...");
 
-  const platformData = [
-    { slug: "youtube", name: "YouTube" },
-    { slug: "facebook", name: "Facebook" },
-    { slug: "instagram", name: "Instagram" },
-    { slug: "twitch", name: "Twitch" },
-    { slug: "vimeo", name: "Vimeo" },
-    { slug: "netflix", name: "Netflix" },
-    { slug: "disneyplus", name: "Disney+" },
-  ];
-
-  for (const platform of platformData) {
-    await prisma.platform.upsert({
+  for (const platform of platforms) {
+    const upsertedPlatform = await prisma.platform.upsert({
       where: { slug: platform.slug },
-      update: {},
-      create: { id: ulid(), ...platform },
+      update: platform,
+      create: platform,
     });
+    console.info(`📺 Platform: ${upsertedPlatform.name}`);
   }
 
-  const youtube = await prisma.platform.findUnique({ where: { slug: "youtube" } });
-  if (!youtube) throw new Error("YouTube platform not found");
-
-  const categoryData = ["Technology", "Gaming", "Education", "Entertainment", "Music"];
-
-  for (const name of categoryData) {
-    await prisma.category.upsert({
-      where: { name },
-      update: {},
-      create: { id: ulid(), name },
+  for (const category of categories) {
+    const upsertedCategory = await prisma.category.upsert({
+      where: { slug: category.name },
+      update: category,
+      create: category,
     });
+    console.info(`📚 Category: ${upsertedCategory.name}`);
   }
 
+  // TODO: Into separate file
   const users = [
     {
       username: "Dery",
@@ -58,26 +48,35 @@ async function main() {
     users.map((user) =>
       prisma.user.upsert({
         where: { email: user.email },
-        update: {},
-        create: { id: ulid(), ...user },
+        update: user,
+        create: user,
       })
     )
   );
 
+  const youtube = await prisma.platform.findUnique({
+    where: { slug: "youtube" },
+  });
+  if (!youtube) {
+    console.error("YouTube platform not found");
+    return null;
+  }
+
+  const videoData = {
+    userId: user1.id,
+    platformId: youtube.id,
+    platformVideoId: "KjE2gZeWMic",
+    originalUrl: "https://youtube.com/watch?v=KjE2gZeWMic",
+    title: "Himzi Ngeledek Saya!",
+    description: "Obrolan Dengan Seonggok Himzi",
+    thumbnail: "https://i3.ytimg.com/vi/KjE2gZeWMic/maxresdefault.jpg",
+    uploadedAt: new Date(),
+  };
+
   const video1 = await prisma.video.upsert({
     where: { platformVideoId: "KjE2gZeWMic" },
-    update: {},
-    create: {
-      id: ulid(),
-      userId: user1.id,
-      platformId: youtube.id,
-      platformVideoId: "KjE2gZeWMic",
-      originalUrl: "https://youtube.com/watch?v=KjE2gZeWMic",
-      title: "Himzi Ngeledek Saya!",
-      description: "Obrolan Dengan Seonggok Himzi",
-      thumbnail: "https://i3.ytimg.com/vi/KjE2gZeWMic/maxresdefault.jpg",
-      uploadedAt: new Date(),
-    },
+    update: videoData,
+    create: videoData,
   });
 
   const existingReview = await prisma.review.findFirst({
@@ -88,7 +87,6 @@ async function main() {
     ? await prisma.review.update({ where: { id: existingReview.id }, data: {} })
     : await prisma.review.create({
         data: {
-          id: ulid(),
           videoId: video1.id,
           userId: user2.id,
           rating: 5,
@@ -103,7 +101,6 @@ async function main() {
   if (!existingComment) {
     await prisma.reviewComment.create({
       data: {
-        id: ulid(),
         reviewId: review1.id,
         userId: user1.id,
         text: "HAHAHAHAHHA",
@@ -118,7 +115,6 @@ async function main() {
   if (!existingPlaylist) {
     await prisma.playlist.create({
       data: {
-        id: ulid(),
         userId: user1.id,
         title: "Himzi",
         videos: { connect: { id: video1.id } },
@@ -133,7 +129,6 @@ async function main() {
   if (!existingLike) {
     await prisma.like.create({
       data: {
-        id: ulid(),
         userId: user1.id,
         reviewId: review1.id,
       },
@@ -147,14 +142,11 @@ async function main() {
   if (!existingFollow) {
     await prisma.follow.create({
       data: {
-        id: ulid(),
         followerId: user1.id,
         followingId: user2.id,
       },
     });
   }
-
-  console.log("Seeding completed!");
 }
 
 main()

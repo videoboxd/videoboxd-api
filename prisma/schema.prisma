@@ -13,122 +13,123 @@ generator dbml {
 }
 
 model User {
-  id         String          @id @default(ulid())
-  username   String          @unique
-  email      String          @unique
-  password   String
-  fullName   String
-  avatarUrl  String?         // https://api.dicebear.com/9.x/open-peeps/svg?seed=SiapaNamanya
+  id        String  @id @default(ulid())
+  username  String  @unique
+  email     String  @unique
+  password  String
+  fullName  String
+  avatarUrl String? // https://api.dicebear.com/9.x/open-peeps/svg?seed=SiapaNamanya
 
-  reviews    Review[]
-  comments   ReviewComment[]
-  playlists  Playlist[]
-  likes      Like[]
+  reviews   Review[]
+  comments  ReviewComment[]
+  playlists Playlist[]
+  likes     Like[]
 
-  following  Follow[]        @relation("UserFollowing")
-  followers  Follow[]        @relation("UserFollowers")
+  following Follow[] @relation("UserFollowing")
+  followers Follow[] @relation("UserFollowers")
 
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  Video      Video[]
+  Video Video[]
 }
 
 model Video {
-  id                String          @id @default(ulid())
-  userId            String
-  user              User            @relation(fields: [userId], references: [id])
-  platformId        String
-  platform          Platform        @relation(fields: [platformId], references: [id])
-  platformVideoId   String          @unique
-  originalUrl       String          // https://youtube.com/watch?v=VIDEO_ID
-                                    // https://youtube.com/embed/VIDEO_ID
-                                    // https://facebook.com/video.php?v=VIDEO_ID
-                                    // https://instagram.com/p/VIDEO_ID
-  title             String
-  description       String?
-  thumbnail         String?
-  uploadedAt        DateTime?
+  id              String    @id @default(ulid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  platformId      String
+  platform        Platform  @relation(fields: [platformId], references: [id])
+  platformVideoId String    @unique
+  originalUrl     String // https://youtube.com/watch?v=VIDEO_ID
+  // https://youtube.com/embed/VIDEO_ID
+  // https://facebook.com/video.php?v=VIDEO_ID
+  // https://instagram.com/p/VIDEO_ID
+  title           String
+  description     String?
+  thumbnail       String?
+  uploadedAt      DateTime?
 
-  reviews           Review[]
-  categories        Category[]
-  playlists         Playlist[]
+  reviews    Review[]
+  categories Category[]
+  playlists  Playlist[]
 
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Platform {
-  id       String          @id @default(ulid())
-  slug     String          @unique // youtube, facebook, instagram, twitch, vimeo, netflix, disneyplus
-  name     String          @unique // YouTube, Facebook, Instagram, Twitch, Vimeo, Netflix, Disney+
+  id   String @id @default(ulid())
+  slug String @unique // youtube, facebook, instagram, twitch, vimeo, netflix, disneyplus
+  name String @unique // YouTube, Facebook, Instagram, Twitch, Vimeo, Netflix, Disney+
 
-  videos   Video[]
+  videos Video[]
 }
 
 model Category {
-  id       String          @id @default(ulid())
-  name     String          @unique
+  id   String @id @default(ulid())
+  slug String @unique
+  name String @unique
 
-  videos   Video[]
+  videos Video[]
 }
 
 model Review {
-  id        String          @id @default(ulid())
-  videoId   String
-  video     Video           @relation(fields: [videoId], references: [id])
-  userId    String
-  user      User            @relation(fields: [userId], references: [id])
+  id      String @id @default(ulid())
+  videoId String
+  video   Video  @relation(fields: [videoId], references: [id])
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
 
-  rating    Int             // 1-5
-  text      String
+  rating Int // 1-5
+  text   String
 
-  likes     Like[]
-  comments  ReviewComment[]
+  likes    Like[]
+  comments ReviewComment[]
 
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ReviewComment {
-  id        String          @id @default(ulid())
-  reviewId  String
-  review    Review          @relation(fields: [reviewId], references: [id])
-  userId    String
-  user      User            @relation(fields: [userId], references: [id])
+  id       String @id @default(ulid())
+  reviewId String
+  review   Review @relation(fields: [reviewId], references: [id])
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
 
-  text      String
+  text String
 
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Playlist {
-  id        String          @id @default(ulid())
-  userId    String
-  user      User            @relation(fields: [userId], references: [id])
+  id     String @id @default(ulid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
-  title     String
-  videos    Video[]
+  title  String
+  videos Video[]
 
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Like {
-  id        String          @id @default(ulid())
-  userId    String
-  user      User            @relation(fields: [userId], references: [id])
+  id     String @id @default(ulid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
-  reviewId  String
-  review    Review          @relation(fields: [reviewId], references: [id])
+  reviewId String
+  review   Review @relation(fields: [reviewId], references: [id])
 }
 
 model Follow {
-  id          String          @id @default(ulid())
-  followerId  String
-  follower    User            @relation("UserFollowing", fields: [followerId], references: [id])
+  id         String @id @default(ulid())
+  followerId String
+  follower   User   @relation("UserFollowing", fields: [followerId], references: [id])
 
   followingId String
-  following   User            @relation("UserFollowers", fields: [followingId], references: [id])
+  following   User   @relation("UserFollowers", fields: [followingId], references: [id])
 }
