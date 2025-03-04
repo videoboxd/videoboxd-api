@@ -15,13 +15,16 @@
     "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@hono/zod-openapi": "^0.19.2",
     "@prisma/client": "^6.4.0",
+    "@scalar/hono-api-reference": "^0.5.179",
     "@types/node": "^22.13.4",
     "hono": "^4.7.2",
     "prisma": "^6.4.0",
     "prisma-dbml-generator": "^0.12.0",
     "tsx": "^4.19.3",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/bun": "latest"
