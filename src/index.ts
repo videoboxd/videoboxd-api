@@ -1,9 +1,13 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
 import { cors } from "hono/cors";
+import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
+import { ZodError } from "zod";
+import authRoute from "./features/auth/route";
 import { prisma } from "./lib/prisma";
 import { VideoCompleteSchema } from "./modules/video/schema";
+import usersRoute from "./features/user/route";
 
 const app = new OpenAPIHono();
 
@@ -29,6 +33,9 @@ app.get(
     },
   })
 );
+
+app.route("/auth", authRoute);
+app.route("/users", usersRoute);
 
 app.openapi(
   createRoute({
@@ -61,5 +68,28 @@ app.openapi(
     }
   }
 );
+
+// Error Handling
+app.onError(async (err, c) => {
+  if (err instanceof HTTPException) {
+    c.status(err.status);
+    return c.json({
+      success: false,
+      message: err.message,
+    });
+  } else if (err instanceof ZodError) {
+    c.status(400);
+    return c.json({
+      success: false,
+      message: err,
+    });
+  } else {
+    c.status(500);
+    return c.json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
 
 export default app;
