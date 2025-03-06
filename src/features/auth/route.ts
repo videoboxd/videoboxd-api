@@ -11,6 +11,7 @@ import { API_TAGS } from "src/config";
 
 const authRoute = new OpenAPIHono<{ Variables: AppVariables }>();
 
+// Register User
 authRoute.openapi(
   {
     method: "post",
@@ -77,6 +78,7 @@ authRoute.openapi(
   }
 );
 
+// Login User
 authRoute.openapi(
   {
     method: "post",
@@ -155,6 +157,7 @@ authRoute.openapi(
   }
 );
 
+// Get Current User
 authRoute.openapi(
   {
     method: "get",
@@ -219,6 +222,82 @@ authRoute.openapi(
   }
 );
 
+// Refresh Token
+authRoute.openapi(
+  {
+    method: "get",
+    path: "/refresh",
+    summary: "Refresh access token",
+    description:
+      "Generates a new access token using a valid refresh token. This endpoint is used to maintain user sessions without requiring re-authentication. It requires a valid refresh token cookie.",
+    security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
+    tags: API_TAGS.AUTH,
+    responses: {
+      200: {
+        content: {
+          "application/json": {
+            schema: z.object({
+              success: z.boolean().default(true),
+              message: z
+                .string()
+                .default("Access token refreshed successfully"),
+              data: z.boolean().default(true),
+            }),
+          },
+        },
+        description:
+          "Access token refreshed successfully. New access and refresh tokens have been set in cookies.",
+      },
+      401: {
+        content: {
+          "application/json": {
+            schema: z.object({
+              success: z.boolean().default(false),
+              message: z.string().default("Unauthorized"),
+            }),
+          },
+        },
+        description: "Unauthorized",
+      },
+      500: {
+        description:
+          "Internal server error. Failed to register user due to a server issue.",
+      },
+    },
+  },
+  async (c) => {
+    // Get ref_token from cookie
+    const refreshToken = await getSignedCookie(
+      c,
+      Bun.env.COOKIE_SECRET!,
+      "refresh_token"
+    );
+
+    if (!refreshToken) {
+      throw new HTTPException(401, {
+        message: "No refresh token",
+      });
+    }
+
+    const { newAccessToken, newRefreshToken } =
+      await authService.generateNewTokens(refreshToken);
+
+    await setAuthCookies(
+      c,
+      newAccessToken,
+      newRefreshToken,
+      Bun.env.COOKIE_SECRET!
+    );
+
+    return c.json({
+      success: true,
+      message: "Access token refreshed successfully",
+      data: true,
+    });
+  }
+);
+
+// Logout User
 authRoute.openapi(
   {
     method: "delete",
