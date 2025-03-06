@@ -53,8 +53,8 @@ export const loginUser = async ({ username, password }: LoginUser) => {
   });
 
   if (!user) {
-    throw new HTTPException(400, {
-      message: "User not found",
+    throw new HTTPException(401, {
+      message: "Username or password is wrong",
     });
   }
 
@@ -62,7 +62,7 @@ export const loginUser = async ({ username, password }: LoginUser) => {
 
   if (!isPasswordValid) {
     throw new HTTPException(401, {
-      message: "Invalid password",
+      message: "Username or password is wrong",
     });
   }
 
