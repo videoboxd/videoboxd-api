@@ -7,6 +7,7 @@ import {
   LikeSchema
 } from "../../../prisma/generated/zod";
 import { text } from "stream/consumers";
+import { platform } from "os";
 
 export const VideoCompleteSchema = VideoSchema.extend({
   platform: PlatformSchema,
@@ -16,7 +17,6 @@ export const VideoCompleteSchema = VideoSchema.extend({
 export const CreateVideo = VideoSchema.pick({
   userId: true,
   platformVideoId: true,
-  platformId: true,
   originalUrl: true,
   title: true,
   description: true,
@@ -25,5 +25,7 @@ export const CreateVideo = VideoSchema.pick({
 }).extend({
   review: ReviewSchema.shape.text,
   rating: ReviewSchema.shape.rating,
-  isLiked: z.boolean().default(false)
+  platform: z.string(),
+  isLiked: z.boolean().default(false),
+  tags: z.array(z.string()).optional(),
 })

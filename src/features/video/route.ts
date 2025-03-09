@@ -37,7 +37,7 @@ videoRoute.openapi(
         // example:
         // {
         //     "userId": "01JNVW6V1T9EN4V4E4X07B4DYC",
-        //     "platformVideoId": "youtube",
+        //     "platformVideoId": "5_827rcK28E",
         //     "platformId": "01JNVW6TVP5XT4R93DEW01015J",
         //     "originalUrl": "https://www.youtube.com/watch?v=5_827rcK28E",
         //     "title": "Relaxing Jazz Playlist with Snoopy 🎧 Music so that you're not eating alone",
