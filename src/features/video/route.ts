@@ -5,7 +5,10 @@ import * as videoService from "./service";
 import { authMiddleware, AppVariables } from "@/middleware/auth-middleware";
 // import { HTTPException } from "hono/http-exception";
 
-const videosRoute = new OpenAPIHono();
+
+const videosRoute = new OpenAPIHono<{
+  Variables: { user: AppVariables };
+}>();
 
 const handleErrorResponse = (c: any, message: string, status: number) => {
   return c.json({ message, success: false }, status);
@@ -90,7 +93,7 @@ videosRoute.openapi(
     summary: "Create a new video",
     description: "Creates a new video.",
     tags: API_TAGS.VIDEO,
-    security: [{ AuthorizationBearer: [] }],
+    security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
     middleware: authMiddleware,
     request: {
       body: {
@@ -122,7 +125,7 @@ videosRoute.openapi(
   async (c) => {
     try {
       const user = c.get("user") as AppVariables;
-      const videoData = c.req.valid("json");
+      const videoData = await c.req.json<z.infer<typeof videoSchema.CreateVideoSchema>>();
       const video = await videoService.createVideo(videoData, user.id);
       return c.json(video, 201);
     } catch (error) {
@@ -130,5 +133,7 @@ videosRoute.openapi(
     }
   }
 );
+
+
 
 export default videosRoute;
