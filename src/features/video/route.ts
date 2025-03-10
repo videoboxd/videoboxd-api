@@ -193,6 +193,62 @@ videosRoute.openapi(
   }
 );
 
+// Edit Video data
+videosRoute.openapi(
+  {
+    method: "patch",
+    path: "/{identifier}",
+    summary: "Update a video",
+    description: "Updates an existing video by ID.",
+    tags: API_TAGS.VIDEO,
+    security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
+    middleware: authMiddleware,
+    request: {
+      params: z.object({ identifier: z.string() }),
+      body: {
+        content: {
+          "application/json": {
+            schema: videoSchema.UpdateVideoSchema, // Gunakan UpdateVideoSchema
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Video updated successfully",
+        content: {
+          "application/json": { schema: videoSchema.VideoCompleteSchema },
+        },
+      },
+      400: {
+        description: "Validation error",
+      },
+      404: {
+        description: "Video not found.",
+      },
+      500: {
+        description: "Internal server error. Failed to update video.",
+      },
+    },
+  },
+  async (c) => {
+    try {
+      const identifier = c.req.param("identifier");
+      if (!identifier) {
+        return handleErrorResponse(c, "Identifier is required", 400);
+      }
+      
+      const videoData = await c.req.json<z.infer<typeof videoSchema.UpdateVideoSchema>>();
+      const updatedVideo = await videoService.updateVideo(identifier, videoData);
+      return c.json(updatedVideo, 200);
+    } catch (error) {
+      if (error instanceof HTTPException && error.status === 404) {
+        return handleErrorResponse(c, error.message, 404);
+      }
+      return handleErrorResponse(c, `Failed to update video: ${error}`, 500);
+    }
+  }
+);
 
 
 export default videosRoute;

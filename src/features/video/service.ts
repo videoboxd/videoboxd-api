@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 // import { Video } from "@prisma/generated/zod";
 import { HTTPException } from "hono/http-exception";
-import { CreateVideoSchema } from "./schema";
+import { CreateVideoSchema, UpdateVideoSchema } from "./schema";
 import { z } from "zod";
 
 export const getAllVideos = async () => {
@@ -76,4 +76,27 @@ export const deleteVideo = async (identifier: string) => {
         await prisma.video.delete({
           where: { id: video.id },
         });
+  };
+
+
+  export const updateVideo = async (
+    identifier: string,
+    data: z.infer<typeof UpdateVideoSchema>
+  ) => {
+    const video = await prisma.video.findFirst({
+      where: {
+        OR: [{ id: identifier }, { platformVideoId: identifier }],
+      },
+    });
+  
+    if (!video) {
+      throw new HTTPException(404, { message: "Video not found" });
+    }
+  
+    const updatedVideo = await prisma.video.update({
+      where: { id: video.id },
+      data,
+    });
+  
+    return updatedVideo;
   };

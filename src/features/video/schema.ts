@@ -25,3 +25,5 @@ export const CreateVideoSchema = VideoSchema.pick({
 }).extend({
   categoryIds: z.array(z.string()).optional(),
 });
+
+export const UpdateVideoSchema = VideoSchema.partial();
