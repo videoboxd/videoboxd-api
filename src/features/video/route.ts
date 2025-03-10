@@ -3,7 +3,7 @@ import { OpenAPIHono, z } from "@hono/zod-openapi";
 import * as videoSchema from "./schema";
 import * as videoService from "./service";
 import { authMiddleware, AppVariables } from "@/middleware/auth-middleware";
-// import { HTTPException } from "hono/http-exception";
+import { HTTPException } from "hono/http-exception";
 
 
 const videosRoute = new OpenAPIHono<{
@@ -14,6 +14,8 @@ const handleErrorResponse = (c: any, message: string, status: number) => {
   return c.json({ message, success: false }, status);
 };
 
+
+// Get All Videos
 videosRoute.openapi(
   {
     method: "get",
@@ -45,6 +47,7 @@ videosRoute.openapi(
   }
 );
 
+// Get Single Video
 videosRoute.openapi(
   {
     method: "get",
@@ -86,6 +89,8 @@ videosRoute.openapi(
   }
 );
 
+
+// Add Video
 videosRoute.openapi(
   {
     method: "post",
@@ -130,6 +135,60 @@ videosRoute.openapi(
       return c.json(video, 201);
     } catch (error) {
       return handleErrorResponse(c, `Failed to create video: ${error}`, 500);
+    }
+  }
+);
+
+// Delete Video
+videosRoute.openapi(
+  {
+    method: "delete",
+    path: "/{identifier}",
+    summary: "Delete a video",
+    description: "Deletes a video by ID.",
+    tags: API_TAGS.VIDEO,
+    security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
+    middleware: authMiddleware,
+    request: {
+      params: z.object({ identifier: z.string() }),
+    },
+    responses: {
+      200: {
+        description: "Video deleted successfully",
+        content: {
+          "application/json": {
+            schema: z.object({
+              success: z.boolean().default(true),
+              message: z.string().default("Video deleted successfully"),
+            }),
+          },
+        },
+      },
+      404: {
+        description: "Video not found.",
+      },
+      500: {
+        description: "Internal server error. Failed to delete video.",
+      },
+    },
+  },
+  async (c) => {
+    try {
+      const identifier = c.req.param("identifier");
+      if (!identifier) {
+        return handleErrorResponse(c, "Identifier is required", 400);
+      }
+
+      await videoService.deleteVideo(identifier);
+      return c.json({
+        message: "Video deleted successfully",
+        success: true,
+      });
+    } catch (error) {
+      if (error instanceof HTTPException && error.status === 404) {
+        return handleErrorResponse(c, error.message, 404);
+      }
+      return handleErrorResponse(c, `Failed to delete video: ${error}`, 500);
     }
   }
 );

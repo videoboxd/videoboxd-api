@@ -59,3 +59,21 @@ export const createVideo = async (videoData: z.infer<typeof CreateVideoSchema>, 
 
   return video;
 };
+
+
+export const deleteVideo = async (identifier: string) => {
+    const video = await prisma.video.findFirst({
+      where: {
+        OR: [{ id: identifier }, { platformVideoId: identifier }],
+      },
+    });
+  
+    if (!video) {
+      throw new HTTPException(404, { message: "Video not found" });
+    }
+  
+    
+        await prisma.video.delete({
+          where: { id: video.id },
+        });
+  };
