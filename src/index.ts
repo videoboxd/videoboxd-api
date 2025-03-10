@@ -8,6 +8,7 @@ import authRoute from "./features/auth/route";
 import { prisma } from "./lib/prisma";
 import { VideoCompleteSchema } from "./modules/video/schema";
 import usersRoute from "./features/user/route";
+import videoRoute from "./features/video/route";
 
 const app = new OpenAPIHono();
 
@@ -36,6 +37,7 @@ app.get(
 
 app.route("/auth", authRoute);
 app.route("/users", usersRoute);
+app.route("/videos", videoRoute);
 
 app.openapi(
   createRoute({
