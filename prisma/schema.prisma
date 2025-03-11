@@ -43,6 +43,8 @@ model User {
 model Video {
   id String @id @default(ulid())
 
+  // slug String @unique // youtube-title-of-the-video-1234567890
+
   platformVideoId String    @unique
   originalUrl     String // https://youtube.com/watch?v=VIDEO_ID
   // https://youtube.com/embed/VIDEO_ID
