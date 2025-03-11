@@ -1,85 +1,93 @@
 import { prisma } from "@/lib/prisma";
-// import { Video } from "@prisma/generated/zod";
+import { z } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
-import { CreateVideoSchema, UpdateVideoSchema } from "./schema";
-import { z } from "zod";
 
-export const getAllVideos = async () => {
-  return await prisma.video.findMany({
-    include: {
-      platform: true,
-      categories: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-};
+import { CreateVideoSchema, UpdateVideoSchema } from "@/features/video/schema";
 
-export const getVideoByIdentifier = async (identifier: string) => {
-  const video = await prisma.video.findFirst({
-    where: {
-      OR: [{ id: identifier }, { platformVideoId: identifier }],
-    },
-    include: {
-      platform: true,
-      categories: true,
-    },
-  });
+export const videoService = {
+  getAllVideos: async () => {
+    return await prisma.video.findMany({
+      include: {
+        platform: true,
+        categories: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  },
 
-  return video;
-};
+  getVideoByIdentifier: async (identifier: string) => {
+    const video = await prisma.video.findFirst({
+      where: {
+        OR: [{ id: identifier }, { platformVideoId: identifier }],
+      },
+      include: {
+        platform: true,
+        categories: true,
+      },
+    });
 
-export const createVideo = async (videoData: z.infer<typeof CreateVideoSchema>, userId: string) => {
-  const { categoryIds, ...videoInput } = videoData;
+    return video;
+  },
 
-  const platform = await prisma.platform.findUnique({
-    where: {
-      id: videoInput.platformId,
-    },
-  });
+  createVideo: async (
+    body: z.infer<typeof CreateVideoSchema>,
+    userId: string
+  ) => {
+    try {
+      const { categoryIds, platformSlug, ...videoBody } = body;
 
-  if (!platform) {
-    throw new HTTPException(404, {message: "Platform not found"});
-  }
+      const platform = await prisma.platform.findFirst({
+        where: {
+          OR: [{ id: videoBody.platformId }, { slug: platformSlug }],
+        },
+      });
 
-  const video = await prisma.video.create({
-    data: {
-      ...videoInput,
-      userId,
-      categories: categoryIds ? {
-        connect: categoryIds.map((id) => ({ id })),
-      } : undefined,
-    },
-    include: {
-      platform: true,
-      categories: true,
-    },
-  });
+      console.log({ platform });
 
-  return video;
-};
+      if (!platform) {
+        throw new HTTPException(404, { message: "Platform not found" });
+      }
 
+      const video = await prisma.video.create({
+        data: {
+          ...videoBody,
+          platformId: platform.id,
+          uploadedAt: new Date(videoBody.uploadedAt),
+          userId,
+          categories: categoryIds
+            ? { connect: categoryIds.map((id) => ({ id })) }
+            : undefined,
+        },
+        include: {
+          platform: true,
+          categories: true,
+        },
+      });
 
-export const deleteVideo = async (identifier: string) => {
+      return video;
+    } catch (error) {
+      console.error(error);
+      throw new HTTPException(404, { message: "Failed to create video" });
+    }
+  },
+
+  deleteVideo: async (identifier: string) => {
     const video = await prisma.video.findFirst({
       where: {
         OR: [{ id: identifier }, { platformVideoId: identifier }],
       },
     });
-  
+
     if (!video) {
       throw new HTTPException(404, { message: "Video not found" });
     }
-  
-    
-        await prisma.video.delete({
-          where: { id: video.id },
-        });
-  };
 
+    await prisma.video.delete({
+      where: { id: video.id },
+    });
+  },
 
-  export const updateVideo = async (
+  updateVideo: async (
     identifier: string,
     data: z.infer<typeof UpdateVideoSchema>
   ) => {
@@ -88,15 +96,16 @@ export const deleteVideo = async (identifier: string) => {
         OR: [{ id: identifier }, { platformVideoId: identifier }],
       },
     });
-  
+
     if (!video) {
       throw new HTTPException(404, { message: "Video not found" });
     }
-  
+
     const updatedVideo = await prisma.video.update({
       where: { id: video.id },
       data,
     });
-  
+
     return updatedVideo;
-  };
+  },
+};

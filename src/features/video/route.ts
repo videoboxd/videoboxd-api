@@ -1,10 +1,10 @@
 import { API_TAGS } from "@/config";
 import { OpenAPIHono, z } from "@hono/zod-openapi";
-import * as videoSchema from "./schema";
-import * as videoService from "./service";
 import { authMiddleware, AppVariables } from "@/middleware/auth-middleware";
 import { HTTPException } from "hono/http-exception";
-
+import { CreateVideoSchema, UpdateVideoSchema } from "./schema";
+import { VideoCompleteSchema } from "@/features/video/schema";
+import { videoService } from "./service";
 
 const videosRoute = new OpenAPIHono<{
   Variables: { user: AppVariables };
@@ -14,7 +14,6 @@ const handleErrorResponse = (c: any, message: string, status: number) => {
   return c.json({ message, success: false }, status);
 };
 
-
 // Get All Videos
 videosRoute.openapi(
   {
@@ -22,18 +21,17 @@ videosRoute.openapi(
     path: "/",
     summary: "Get all videos",
     description: "Returns a list of all videos in the system.",
-    tags: API_TAGS.VIDEO,
+    tags: API_TAGS.VIDEOS,
     responses: {
       200: {
         description: "Successfully get all videos",
         content: {
-          "application/json": {
-            schema: z.array(videoSchema.VideoCompleteSchema),
-          },
+          "application/json": { schema: z.array(VideoCompleteSchema) },
         },
       },
       500: {
-        description: "Internal server error. Failed to retrieve the list of videos.",
+        description:
+          "Internal server error. Failed to retrieve the list of videos.",
       },
     },
   },
@@ -54,18 +52,14 @@ videosRoute.openapi(
     path: "/{identifier}",
     summary: "Get video details",
     description: "Returns the details of a video by ID or platformVideoId.",
-    tags: API_TAGS.VIDEO,
+    tags: API_TAGS.VIDEOS,
     request: {
       params: z.object({ identifier: z.string() }),
     },
     responses: {
       200: {
         description: "Video details retrieved successfully",
-        content: {
-          "application/json": {
-            schema: videoSchema.VideoCompleteSchema,
-          },
-        },
+        content: { "application/json": { schema: VideoCompleteSchema } },
       },
       404: {
         description: "Video not found.",
@@ -89,49 +83,34 @@ videosRoute.openapi(
   }
 );
 
-
-// Add Video
+// Create Video
 videosRoute.openapi(
   {
     method: "post",
     path: "/",
-    summary: "Create a new video",
-    description: "Creates a new video.",
-    tags: API_TAGS.VIDEO,
-    security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
+    summary: "New video entry",
+    description: "Create a new video entry.",
+    tags: API_TAGS.VIDEOS,
+    security: [{ AuthorizationBearer: [] }],
     middleware: authMiddleware,
     request: {
-      body: {
-        content: {
-          "application/json": {
-            schema: videoSchema.CreateVideoSchema,
-          },
-        },
-      },
+      body: { content: { "application/json": { schema: CreateVideoSchema } } },
     },
     responses: {
       201: {
         description: "Video created successfully",
-        content: {
-          "application/json": { schema: videoSchema.VideoCompleteSchema },
-        },
+        content: { "application/json": { schema: VideoCompleteSchema } },
       },
-      400: {
-        description: "Validation error",
-      },
-      404: {
-        description: "Platform not found",
-      },
-      500: {
-        description: "Failed to create video",
-      },
+      400: { description: "Validation error" },
+      404: { description: "Platform not found" },
+      500: { description: "Failed to create video" },
     },
   },
   async (c) => {
     try {
       const user = c.get("user") as AppVariables;
-      const videoData = await c.req.json<z.infer<typeof videoSchema.CreateVideoSchema>>();
-      const video = await videoService.createVideo(videoData, user.id);
+      const body = c.req.valid("json");
+      const video = await videoService.createVideo(body, user.id);
       return c.json(video, 201);
     } catch (error) {
       return handleErrorResponse(c, `Failed to create video: ${error}`, 500);
@@ -146,7 +125,7 @@ videosRoute.openapi(
     path: "/{identifier}",
     summary: "Delete a video",
     description: "Deletes a video by ID.",
-    tags: API_TAGS.VIDEO,
+    tags: API_TAGS.VIDEOS,
     security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
     middleware: authMiddleware,
     request: {
@@ -200,24 +179,18 @@ videosRoute.openapi(
     path: "/{identifier}",
     summary: "Update a video",
     description: "Updates an existing video by ID.",
-    tags: API_TAGS.VIDEO,
+    tags: API_TAGS.VIDEOS,
     security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
     middleware: authMiddleware,
     request: {
       params: z.object({ identifier: z.string() }),
-      body: {
-        content: {
-          "application/json": {
-            schema: videoSchema.UpdateVideoSchema, // Gunakan UpdateVideoSchema
-          },
-        },
-      },
+      body: { content: { "application/json": { schema: UpdateVideoSchema } } },
     },
     responses: {
       200: {
         description: "Video updated successfully",
         content: {
-          "application/json": { schema: videoSchema.VideoCompleteSchema },
+          "application/json": { schema: VideoCompleteSchema },
         },
       },
       400: {
@@ -237,9 +210,12 @@ videosRoute.openapi(
       if (!identifier) {
         return handleErrorResponse(c, "Identifier is required", 400);
       }
-      
-      const videoData = await c.req.json<z.infer<typeof videoSchema.UpdateVideoSchema>>();
-      const updatedVideo = await videoService.updateVideo(identifier, videoData);
+
+      const videoData = await c.req.json<z.infer<typeof UpdateVideoSchema>>();
+      const updatedVideo = await videoService.updateVideo(
+        identifier,
+        videoData
+      );
       return c.json(updatedVideo, 200);
     } catch (error) {
       if (error instanceof HTTPException && error.status === 404) {
@@ -249,6 +225,5 @@ videosRoute.openapi(
     }
   }
 );
-
 
 export default videosRoute;

@@ -37,7 +37,6 @@ app.route("/auth", authRoute);
 app.route("/users", usersRoute);
 app.route("/videos", videosRoute);
 
-
 // Error Handling
 app.onError(async (err, c) => {
   if (err instanceof HTTPException) {

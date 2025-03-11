@@ -1,14 +1,17 @@
 import { prisma } from "@/lib/prisma";
-import { User } from "@prisma/generated/zod";
 import { HTTPException } from "hono/http-exception";
 
-export const getAllUsers = async (): Promise<User[]> => {
+export const getAllUsers = async () => {
   return await prisma.user.findMany({
     orderBy: { createdAt: "desc" },
+    omit: {
+      email: true,
+      password: true,
+    },
   });
 };
 
-export const getUserByParam = async (param: string): Promise<User | null> => {
+export const getUserByParam = async (param: string) => {
   const user = await prisma.user.findFirst({
     where: {
       OR: [{ id: param }, { email: param }, { username: param }],
@@ -18,6 +21,10 @@ export const getUserByParam = async (param: string): Promise<User | null> => {
       comments: { orderBy: { createdAt: "desc" } },
       playlists: { orderBy: { createdAt: "desc" } },
       likes: true,
+    },
+    omit: {
+      email: true,
+      password: true,
     },
   });
 
