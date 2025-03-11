@@ -20,18 +20,10 @@ export const VideoCompleteSchema = VideoSchema.extend({
     .optional(),
 });
 
-export const CreateVideoSchema = VideoSchema.pick({
-  platformVideoId: true,
-  originalUrl: true,
-  title: true,
-  description: true,
-  thumbnail: true,
-}).extend({
-  uploadedAt: z.string(),
-  platformId: z.string().optional(),
-  platformSlug: z.string().optional(),
-  categoryIds: z.array(z.string()).optional(),
-  tags: z.array(z.string()).optional(),
+export const CreateVideoSchema = z.object({
+  originalUrl: z.string(),
+  categorySlug: z.string().optional(),
+  // tags: z.array(z.string()).optional(),
 });
 
 export const UpdateVideoSchema = VideoSchema.partial();
