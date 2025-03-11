@@ -7,6 +7,12 @@ export const UserSearchParam = z.object({
   }),
 });
 
-export const GetUsers = UserSchema.omit({ password: true }).array();
+export const GetUsers = UserSchema.omit({
+  email: true,
+  password: true,
+}).array();
 
-export const GetUserDetail = UserSchema.omit({ password: true });
+export const GetUserDetail = UserSchema.omit({
+  email: true,
+  password: true,
+});

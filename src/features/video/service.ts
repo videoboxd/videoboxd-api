@@ -1,69 +1,111 @@
 import { prisma } from "@/lib/prisma";
 import { z } from "@hono/zod-openapi";
-import { ulid } from "ulid";
-import { CreateVideo } from "@/modules/video/schema";
+import { HTTPException } from "hono/http-exception";
 
-export const submitVideoReview = async (body: z.infer<typeof CreateVideo> ) => {
+import { CreateVideoSchema, UpdateVideoSchema } from "@/features/video/schema";
 
-    return await prisma.$transaction(async (tx) => {
-        const categories = body.tags
-            ? await tx.category.findMany({
-                where: { slug: { in: body.tags }},
-                select: { id: true },
-            })
-            : [];
+export const videoService = {
+  getAllVideos: async () => {
+    return await prisma.video.findMany({
+      include: {
+        platform: true,
+        categories: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  },
 
-        const platform = await tx.platform.findUnique({
-            where: { slug: body.platform },
-            select: { id: true },
-        });
-        if (!platform) {
-            throw new Error(`Platform with name '${body.platform}' not found.`);
-        }
-        const platformId = platform.id;
+  getVideoByIdentifier: async (identifier: string) => {
+    const video = await prisma.video.findFirst({
+      where: {
+        OR: [{ id: identifier }, { platformVideoId: identifier }],
+      },
+      include: {
+        platform: true,
+        categories: true,
+      },
+    });
 
-        const categoryIds = categories.map((c) => ({ id: c.id }));
+    return video;
+  },
 
-        const video = await tx.video.upsert({
-            where: {
-                platformVideoId: body.platformVideoId,
-            },
-            update: {
-                categories: categoryIds.length > 0 ? { set: [], connect: categoryIds } : undefined,
-            },
-            create: {
-                userId: body.userId,
-                platformVideoId: body.platformVideoId,
-                platformId: platformId,
-                originalUrl: body.originalUrl,
-                title: body.title,
-                description: body.description,
-                thumbnail: body.thumbnail,
-                uploadedAt: body.uploadedAt,
-                categories: categoryIds.length > 0 ? { connect: categoryIds } : undefined,
-            },
-        })
+  createVideo: async (
+    body: z.infer<typeof CreateVideoSchema>,
+    userId: string
+  ) => {
+    try {
+      const { categoryIds, platformSlug, ...videoBody } = body;
 
-        const review = await tx.review.create({
-            data: {
-                id: ulid(),
-                videoId: video.id,
-                userId: body.userId,
-                text: body.review,
-                rating: body.rating,
-            },
-        });
+      const platform = await prisma.platform.findFirst({
+        where: {
+          OR: [{ id: videoBody.platformId }, { slug: platformSlug }],
+        },
+      });
 
-        let like = null;
+      console.log({ platform });
 
-        if (body.isLiked) {
-            like = await tx.like.create({
-                data: {
-                    id: ulid(),
-                    userId: body.userId,
-                    reviewId: review.id,
-                },
-            });
-        }
-    })
-}
+      if (!platform) {
+        throw new HTTPException(404, { message: "Platform not found" });
+      }
+
+      const video = await prisma.video.create({
+        data: {
+          ...videoBody,
+          platformId: platform.id,
+          uploadedAt: new Date(videoBody.uploadedAt),
+          userId,
+          categories: categoryIds
+            ? { connect: categoryIds.map((id) => ({ id })) }
+            : undefined,
+        },
+        include: {
+          platform: true,
+          categories: true,
+        },
+      });
+
+      return video;
+    } catch (error) {
+      console.error(error);
+      throw new HTTPException(404, { message: "Failed to create video" });
+    }
+  },
+
+  deleteVideo: async (identifier: string) => {
+    const video = await prisma.video.findFirst({
+      where: {
+        OR: [{ id: identifier }, { platformVideoId: identifier }],
+      },
+    });
+
+    if (!video) {
+      throw new HTTPException(404, { message: "Video not found" });
+    }
+
+    await prisma.video.delete({
+      where: { id: video.id },
+    });
+  },
+
+  updateVideo: async (
+    identifier: string,
+    data: z.infer<typeof UpdateVideoSchema>
+  ) => {
+    const video = await prisma.video.findFirst({
+      where: {
+        OR: [{ id: identifier }, { platformVideoId: identifier }],
+      },
+    });
+
+    if (!video) {
+      throw new HTTPException(404, { message: "Video not found" });
+    }
+
+    const updatedVideo = await prisma.video.update({
+      where: { id: video.id },
+      data,
+    });
+
+    return updatedVideo;
+  },
+};

@@ -17,11 +17,13 @@ generator dbml {
 }
 
 model User {
-  id        String  @id @default(ulid())
-  username  String  @unique
-  email     String  @unique
-  password  String // hashed password, not plain string
-  fullName  String
+  id String @id @default(ulid())
+
+  email    String @unique
+  password String // hashed password, not plain string
+  fullName String
+  username String @unique
+
   avatarUrl String? // https://api.dicebear.com/9.x/open-peeps/svg?seed=SiapaNamanya
 
   reviews   Review[]
@@ -39,11 +41,8 @@ model User {
 }
 
 model Video {
-  id              String    @id @default(ulid())
-  userId          String
-  user            User      @relation(fields: [userId], references: [id])
-  platformId      String
-  platform        Platform  @relation(fields: [platformId], references: [id])
+  id String @id @default(ulid())
+
   platformVideoId String    @unique
   originalUrl     String // https://youtube.com/watch?v=VIDEO_ID
   // https://youtube.com/embed/VIDEO_ID
@@ -54,9 +53,15 @@ model Video {
   thumbnail       String?
   uploadedAt      DateTime?
 
+  platformId String
+  platform   Platform @relation(fields: [platformId], references: [id])
+
   reviews    Review[]
   categories Category[]
   playlists  Playlist[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -79,17 +84,19 @@ model Category {
 }
 
 model Review {
-  id      String @id @default(ulid())
+  id String @id @default(ulid())
+
   videoId String
   video   Video  @relation(fields: [videoId], references: [id])
-  userId  String
-  user    User   @relation(fields: [userId], references: [id])
 
   rating Int // 1-5
   text   String
 
   likes    Like[]
   comments ReviewComment[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
