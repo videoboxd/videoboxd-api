@@ -1,5 +1,8 @@
 export const videos = [
   {
+    "id": "01JNH1QRXDPAEVXP8AV7VQH01E",
+    "userId": "01JNH1QRWSHYJRSSSC37MFGHHK",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "KjE2gZeWMic",
     "originalUrl": "https://youtube.com/watch?v=KjE2gZeWMic",
     "title": "Himzi Ngeledek Saya!",
@@ -12,6 +15,9 @@ export const videos = [
     "userUsername": "Dery"
   },
   {
+    "id": "01JNYRS0RMZJPVJY8JHVSEC1GD",
+    "userId": "01JNYQZHWCKQYRZZPNQGAEQX00",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "_Qn9B9mD2bI",
     "originalUrl": "https://www.youtube.com/watch?v=_Qn9B9mD2bI",
     "title": "[MV] Bibir yang Telah Dicuri - JKT48",
@@ -24,6 +30,9 @@ export const videos = [
     "userUsername": "Dery"
   },
   {
+    "id": "01JP3260NBBCDFT0YNGW2XNJK1",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "kvhNCk257WY",
     "originalUrl": "https://www.youtube.com/watch?v=kvhNCk257WY",
     "title": "[MV] #KuSangatSuka - JKT48",
@@ -36,6 +45,9 @@ export const videos = [
     "userUsername": "Dery"
   },
   {
+    "id": "01JP329R5A0GT9JH9EP01E7D42",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "w3xexlaQQ3U",
     "originalUrl": "https://www.youtube.com/watch?v=w3xexlaQQ3U",
     "title": "Better",
@@ -48,6 +60,9 @@ export const videos = [
     "userUsername": "Dery"
   },
   {
+    "id": "01JP33KP40KA0K67JX0685643M",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "hIvYeNQYvmk",
     "originalUrl": "https://www.youtube.com/watch?v=hIvYeNQYvmk",
     "title": "Jiwaru Days",
@@ -60,6 +75,9 @@ export const videos = [
     "userUsername": "Dery"
   },
   {
+    "id": "01JP34SF3P00FXNYCKZJA3JE11",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "OpACc2RRTlA",
     "originalUrl": "https://www.youtube.com/watch?v=OpACc2RRTlA",
     "title": "Langit Biru Cinta Searah (New Era Version)",
@@ -72,6 +90,9 @@ export const videos = [
     "userUsername": "Dery"
   },
   {
+    "id": "01JP356X0VPA5HJG146PXAXQVZ",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "SEZHwEeoWyA",
     "originalUrl": "https://www.youtube.com/watch?v=SEZHwEeoWyA",
     "title": "#KuSangatSuka",
@@ -84,6 +105,9 @@ export const videos = [
     "userUsername": "Ipung"
   },
   {
+    "id": "01JP36F48TR4K9P34C542VF3K9",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "BkcLQHUaAHM",
     "originalUrl": "https://www.youtube.com/watch?v=BkcLQHUaAHM",
     "title": "JKT48 - YUUHI WO MITEIRUKA (COVER BY PPM)",
@@ -96,6 +120,9 @@ export const videos = [
     "userUsername": "Ipung"
   },
   {
+    "id": "01JP6GRFF9RKP59JQXR9E3K00J",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "Ak6T1ePRZKg",
     "originalUrl": "https://www.youtube.com/watch?v=Ak6T1ePRZKg",
     "title": "Intensif & Praktis : Raih Peluang Kerja jadi Fullstack Developer🤩🧑🏻‍💻",
@@ -108,6 +135,9 @@ export const videos = [
     "userUsername": "Ipung"
   },
   {
+    "id": "01JP6GTH16A7HZ4YNTRM13GF99",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "nww7nBlOvKA",
     "originalUrl": "https://www.youtube.com/watch?v=nww7nBlOvKA",
     "title": "Podcast Sisi Lain WEB PROGRAMMING UNPAS - Sandhika Galih",
@@ -120,6 +150,9 @@ export const videos = [
     "userUsername": "Ipung"
   },
   {
+    "id": "01JP6GVS6NK80J9CZFTY4S95XM",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "tV9cqfKPRKU",
     "originalUrl": "https://www.youtube.com/watch?v=tV9cqfKPRKU",
     "title": "FULL Fullstack! Semua Pertanyaan Tentang Programming Pasti DIJAWAB! 🤩🦾 | WPUCAST #3 (Haidar Hanif)",
@@ -132,6 +165,9 @@ export const videos = [
     "userUsername": "Ipung"
   },
   {
+    "id": "01JP6GWKKBRWP15N1KM43VYVB7",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "TanFwAcHBqE",
     "originalUrl": "https://www.youtube.com/watch?v=TanFwAcHBqE",
     "title": "10 Tips Melatih LOGIKA PEMROGRAMAN agar Ngoding makin Sat-Set🧑‍💻🤩",
@@ -144,6 +180,9 @@ export const videos = [
     "userUsername": "Ipung"
   },
   {
+    "id": "01JP6GXGXFXM4A9DJYQKVWXJKT",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "MCVkMmYL-aY",
     "originalUrl": "https://www.youtube.com/watch?v=MCVkMmYL-aY",
     "title": "Membuat WEBSITE Kedai Kopi RESPONSIVE dengan HTML & CSS dari 0 + Autodeploy ke WEB HOSTING",
@@ -156,6 +195,9 @@ export const videos = [
     "userUsername": "Rifki"
   },
   {
+    "id": "01JP6H7SF34S4Q10NFEZ1X9NNZ",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "hMDJyb7VkYw",
     "originalUrl": "https://www.youtube.com/watch?v=hMDJyb7VkYw",
     "title": "Tutorial HTML Dasar (Bahasa Indonesia)",
@@ -168,6 +210,9 @@ export const videos = [
     "userUsername": "Rifki"
   },
   {
+    "id": "01JP6H9D947VPE683KVW6YCD49",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "DsqMUJ7rbXg",
     "originalUrl": "https://www.youtube.com/watch?v=DsqMUJ7rbXg",
     "title": "Masih Layak kah Belajar Programming di Tahun 2024? 💻",
@@ -180,6 +225,9 @@ export const videos = [
     "userUsername": "Rifki"
   },
   {
+    "id": "01JP6P3SBCZCEDQZJWS7JQ463J",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "mD6uSGSjgr4",
     "originalUrl": "https://www.youtube.com/watch?v=mD6uSGSjgr4",
     "title": "Belajar Dasar Pemrograman Javascript 1 Jam",
@@ -192,6 +240,9 @@ export const videos = [
     "userUsername": "Rifki"
   },
   {
+    "id": "01JP6HG39EQFSE6DWNDKYCHK4A",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "6J6OuO7UT5k",
     "originalUrl": "https://www.youtube.com/watch?v=6J6OuO7UT5k",
     "title": "[MV] Everyday, Kachuusha - JKT48 (Story Version)",
@@ -204,6 +255,9 @@ export const videos = [
     "userUsername": "Rifki"
   },
   {
+    "id": "01JP6NVN67KDX8BP1EQ5SYWJZM",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "RH_2pLlHN8Y",
     "originalUrl": "https://www.youtube.com/watch?v=RH_2pLlHN8Y",
     "title": "[MV] Indahnya Senyum Manismu dst. - JKT48",
@@ -216,6 +270,9 @@ export const videos = [
     "userUsername": "Rifki"
   },
   {
+    "id": "01JP6NWGFXABSBZJM7V60B2T53",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "OEV8gMkCHXQ",
     "originalUrl": "https://www.youtube.com/watch?v=OEV8gMkCHXQ",
     "title": "CSS in 100 Seconds",
@@ -228,6 +285,9 @@ export const videos = [
     "userUsername": "Rifki"
   },
   {
+    "id": "01JP6NWXKXSJZ8YSZYTDTRRZKF",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "m6hlrk2Jwrw",
     "originalUrl": "https://www.youtube.com/watch?v=m6hlrk2Jwrw",
     "title": "Deno 2 vs Bun: Which Should You Choose?",
@@ -240,6 +300,9 @@ export const videos = [
     "userUsername": "Ijun"
   },
   {
+    "id": "01JP6NXVT8S5V7SNRBG3KYEPT3",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "dWqNgzZwVJQ",
     "originalUrl": "https://www.youtube.com/watch?v=dWqNgzZwVJQ",
     "title": "Bun is disrupting JavaScript land",
@@ -252,6 +315,9 @@ export const videos = [
     "userUsername": "Ijun"
   },
   {
+    "id": "01JP6NYEA9JXR6AH9H2C3KBVAH",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "vQJJ_K1JbEA",
     "originalUrl": "https://www.youtube.com/watch?v=vQJJ_K1JbEA",
     "title": "REST API #1 APA ITU API ?",
@@ -264,6 +330,9 @@ export const videos = [
     "userUsername": "Ijun"
   },
   {
+    "id": "01JP6NYWCQYM52CBQ8MBFY3Q5N",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "lsMQRaeKNDk",
     "originalUrl": "https://www.youtube.com/watch?v=lsMQRaeKNDk",
     "title": "What is a REST API?",
@@ -276,6 +345,9 @@ export const videos = [
     "userUsername": "Ijun"
   },
   {
+    "id": "01JP6P0736W0C27Q987S9KQ32C",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "-mN3VyJuCjM",
     "originalUrl": "https://www.youtube.com/watch?v=-mN3VyJuCjM",
     "title": "What Is REST API? Examples And How To Use It: Crash Course System Design #3",
@@ -288,6 +360,9 @@ export const videos = [
     "userUsername": "Ijun"
   },
   {
+    "id": "01JP6P0NJ93HA851V7ZQQMC3NR",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "SqcY0GlETPk&t=163s",
     "originalUrl": "https://www.youtube.com/watch?v=SqcY0GlETPk&t=163s",
     "title": "React Tutorial for Beginners",
@@ -300,6 +375,9 @@ export const videos = [
     "userUsername": "Ijun"
   },
   {
+    "id": "01JP6P2EP6E8SKRMCC4Y05JHE4",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "kcnwI_5nKyA&t=571s",
     "originalUrl": "https://www.youtube.com/watch?v=kcnwI_5nKyA&t=571s",
     "title": "Tutorial REACT \"Paling Masuk Akal\" untuk PEMULA 🤩🌐",
@@ -312,6 +390,9 @@ export const videos = [
     "userUsername": "Ijun"
   },
   {
+    "id": "01JP6P35BX8NQQKDSVXPWM0JVC",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "I5kj-YsmWjM&t=681s",
     "originalUrl": "https://www.youtube.com/watch?v=I5kj-YsmWjM&t=681s",
     "title": "Build this JS calculator in 15 minutes! 🖩",
@@ -324,6 +405,9 @@ export const videos = [
     "userUsername": "Ijun"
   },
   {
+    "id": "01JP6P4C85MQTVEDGGR8JXMM5M",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "OXGznpKZ_sA",
     "originalUrl": "https://www.youtube.com/watch?v=OXGznpKZ_sA",
     "title": "CSS Tutorial – Full Course for Beginners",
@@ -336,6 +420,9 @@ export const videos = [
     "userUsername": "Ijun"
   },
   {
+    "id": "01JP6P4X0K6QWCMFW13APBGB3C",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "G3e-cpL7ofc",
     "originalUrl": "https://www.youtube.com/watch?v=G3e-cpL7ofc",
     "title": "HTML & CSS Full Course - Beginner to Pro",
@@ -348,6 +435,9 @@ export const videos = [
     "userUsername": "Ijun"
   },
   {
+    "id": "01JP6P6Y4EB9DN3DT2QVC6TFRN",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "nW60yGRoUrs",
     "originalUrl": "https://www.youtube.com/watch?v=nW60yGRoUrs",
     "title": "Belajar Laravel 11 | 2. Instalasi & Konfigurasi",
@@ -360,6 +450,9 @@ export const videos = [
     "userUsername": "Fathur"
   },
   {
+    "id": "01JP6PB2PF4PYGCPY7J0XDBW4A",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "uxMADW3CmN4",
     "originalUrl": "https://www.youtube.com/watch?v=uxMADW3CmN4",
     "title": "I Stopped Using Express.js: Because Bun and Hono 🔥",
@@ -372,6 +465,9 @@ export const videos = [
     "userUsername": "Fathur"
   },
   {
+    "id": "01JP6PBRPT1XG0VNMAGYDMDWJM",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "VbnMc4WNcdY",
     "originalUrl": "https://www.youtube.com/watch?v=VbnMc4WNcdY",
     "title": "Tutorial Bun Hono RESTful API",
@@ -384,6 +480,9 @@ export const videos = [
     "userUsername": "Fathur"
   },
   {
+    "id": "01JP6PCADFN177CJJTFJABX8RV",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "DOq86rFop-Q",
     "originalUrl": "https://www.youtube.com/watch?v=DOq86rFop-Q",
     "title": "🔥 TUTORIAL LENGKAP DRIZZLE ORM DI HONO + BUN: BANGUN APLIKASI CEPAT & EFISIEN!",
@@ -396,6 +495,9 @@ export const videos = [
     "userUsername": "Fathur"
   },
   {
+    "id": "01JP6PDPMNABDNAJJ8NR7T4SZB",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "cIZqTC3I1Ds",
     "originalUrl": "https://www.youtube.com/watch?v=cIZqTC3I1Ds",
     "title": "REVIEW CORETAX INDONESIA VS IRAS SINGAPURA",
@@ -408,6 +510,9 @@ export const videos = [
     "userUsername": "Fathur"
   },
   {
+    "id": "01JP6PGDKPAWAC3BAG3WJRQ90M",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "MABmHY9YtpE",
     "originalUrl": "https://www.youtube.com/watch?v=MABmHY9YtpE",
     "title": "TERUNGKAP! Coretax Gagal Total karena Database 'Maut' Ini?!",
@@ -420,6 +525,9 @@ export const videos = [
     "userUsername": "Fathur"
   },
   {
+    "id": "01JP6PGN1F8G9SCE1PFW5H1NK9",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "hwFvvLqYP0Q",
     "originalUrl": "https://www.youtube.com/watch?v=hwFvvLqYP0Q",
     "title": "TES EFISIENSI BBM RON 92: Pertamax, Shell Super, Vivo Revvo 92, BP 92 | GridOto",
@@ -432,6 +540,9 @@ export const videos = [
     "userUsername": "Fathur"
   },
   {
+    "id": "01JP6PGX5PYZSSVGBMSCD39MZF",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "BnXfDVja9m4",
     "originalUrl": "https://www.youtube.com/watch?v=BnXfDVja9m4",
     "title": "Breaking News Kisruh Pertamax, Komisi VI DPR RI Panggil Pertamina | 11/03",
@@ -444,6 +555,9 @@ export const videos = [
     "userUsername": "Haidar"
   },
   {
+    "id": "01JP6PH3W7AR8Z37BB6F0JDFGN",
+    "userId": "01JP2Z2ARZHSZGAFE6G2H3YEGS",
+    "platformId": "01JNH1QRKBZYR0NV0Z4BTE0B5E",
     "platformVideoId": "IJrELFkSnUA",
     "originalUrl": "https://www.youtube.com/watch?v=IJrELFkSnUA",
     "title": "BENSIN PERTAMAX, TAPI KOK RASA PERTALITE⁉️ | #REACTION - Dokter Mobil Indonesia",
@@ -454,29 +568,5 @@ export const videos = [
     "updatedAt": "2025-03-12T19:49:54.823Z",
     "platformSlug": "youtube",
     "userUsername": "Haidar"
-  },
-  {
-    "platformVideoId": "",
-    "originalUrl": "",
-    "title": "",
-    "description": "",
-    "thumbnail": "",
-    "uploadedAt": null,
-    "createdAt": null,
-    "updatedAt": null,
-    "platformSlug": "",
-    "userUsername": ""
-  },
-  {
-    "platformVideoId": "",
-    "originalUrl": "",
-    "title": "",
-    "description": "",
-    "thumbnail": "",
-    "uploadedAt": null,
-    "createdAt": null,
-    "updatedAt": null,
-    "platformSlug": "",
-    "userUsername": ""
   }
 ];

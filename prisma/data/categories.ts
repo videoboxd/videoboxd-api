@@ -4,4 +4,5 @@ export const categories = [
   { slug: "education", name: "Education" },
   { slug: "entertainment", name: "Entertainment" },
   { slug: "music", name: "Music" },
+  { slug: "politic", name: "Politic" },
 ];

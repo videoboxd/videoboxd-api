@@ -12,5 +12,8 @@ COPY . .
 RUN bun install
 RUN bun db:gen
 
+# Install yt-dlp
+RUN apt-get update && apt-get install -y yt-dlp
+
 # Run the application
 CMD ["bun", "start"]
