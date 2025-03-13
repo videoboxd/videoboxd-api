@@ -22,7 +22,7 @@ export const VideoCompleteSchema = VideoSchema.extend({
 
 export const CreateVideoSchema = z.object({
   originalUrl: z.string(),
-  categorySlug: z.string().optional(),
+  categorySlug: z.string(),
   // tags: z.array(z.string()).optional(),
 });
 
