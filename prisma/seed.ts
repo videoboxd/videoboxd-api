@@ -3,12 +3,14 @@ import { PrismaClient } from "@prisma/client";
 import { platforms } from "./data/platforms";
 import { categories } from "./data/categories";
 import { hashPassword } from "../src/lib/hash";
+import { users } from "./data/users";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.info("🏁 Start seeding...");
 
+  // Platform
   for (const platform of platforms) {
     const upsertedPlatform = await prisma.platform.upsert({
       where: { slug: platform.slug },
@@ -18,6 +20,7 @@ async function main() {
     console.info(`📺 Platform: ${upsertedPlatform.name}`);
   }
 
+  // Categories
   for (const category of categories) {
     const upsertedCategory = await prisma.category.upsert({
       where: { slug: category.name },
@@ -27,58 +30,31 @@ async function main() {
     console.info(`📚 Category: ${upsertedCategory.name}`);
   }
 
-  // TODO: Into separate file
-  const users = [
-    {
-      username: "Dery",
-      email: "dery@example.com",
-      password: await hashPassword("password123"),
-      fullName: "Dery",
-      avatarUrl: "https://api.dicebear.com/9.x/open-peeps/svg?seed=UserOne",
-    },
-    {
-      username: "Rifki",
-      email: "rifki@example.com",
-      password: await hashPassword("password123"),
-      fullName: "Rifki",
-      avatarUrl: "https://api.dicebear.com/9.x/open-peeps/svg?seed=UserTwo",
-    },
-  ];
-
-  const [user1, user2] = await Promise.all(
-    users.map((user) =>
-      prisma.user.upsert({
-        where: { email: user.email },
-        update: user,
-        create: user,
-      })
-    )
-  );
-
-  const youtube = await prisma.platform.findUnique({
-    where: { slug: "youtube" },
-  });
-  if (!youtube) {
-    console.error("YouTube platform not found");
-    return null;
+  // User
+  for (const user of users) {
+    const hashedPassword = await hashPassword(user.password);
+    const upsertedUser = await prisma.user.upsert({
+      where: { email: user.email },
+      update: { ...user, password: hashedPassword },
+      create: { ...user, password: hashedPassword },
+    });
+    console.info(`👤 User: ${upsertedUser.username}`);
   }
 
-  const videoData = {
-    userId: user1.id,
-    platformId: youtube.id,
-    platformVideoId: "KjE2gZeWMic",
-    originalUrl: "https://youtube.com/watch?v=KjE2gZeWMic",
-    title: "Himzi Ngeledek Saya!",
-    description: "Obrolan Dengan Seonggok Himzi",
-    thumbnail: "https://i3.ytimg.com/vi/KjE2gZeWMic/maxresdefault.jpg",
-    uploadedAt: new Date(),
-  };
-
-  const video1 = await prisma.video.upsert({
-    where: { platformVideoId: "KjE2gZeWMic" },
-    update: videoData,
-    create: videoData,
-  });
+  for (const videoData of videos) {
+    const platform = await prisma.platform.findUnique({
+      where: { slug: videoData.platformSlug },
+    });
+    const user = await prisma.user.findUnique({
+      where: { username: videoData.userUsername },
+    });
+    const video = await prisma.video.upsert({
+      where: { platformVideoId: videoData.platformVideoId },
+      update: { ...videoData, platformId: platform?.id, userId: user?.id },
+      create: { ...videoData, platformId: platform?.id, userId: user?.id },
+    });
+    console.info(` Video: ${video.title}`);
+  }
 
   const existingReview = await prisma.review.findFirst({
     where: { userId: user2.id, videoId: video1.id },
