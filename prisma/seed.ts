@@ -8,6 +8,7 @@ import { videos } from "./data/videos";
 import { reviews } from "./data/reviews";
 import { reviewComments } from "./data/reviewComments";
 import { playlists } from "./data/playlists";
+import { likes } from "./data/likes";
 
 const prisma = new PrismaClient();
 
@@ -166,19 +167,33 @@ for (const playlistData of playlists) {
   console.info(` Playlist: ${playlist.title}`);
 }
 
-  // const existingPlaylist = await prisma.playlist.findFirst({
-  //   where: { userId: user1.id, title: "Himzi" },
-  // });
+// Likes
+for (const likeData of likes) {
+  const review = await prisma.review.findFirst({
+    where: {
+      video: { platformVideoId: likeData.reviewVideoPlatformId },
+      user: { username: likeData.reviewUserUsername },
+    },
+  });
+  const user = await prisma.user.findUnique({
+    where: { username: likeData.userUsername },
+  });
 
-  // if (!existingPlaylist) {
-  //   await prisma.playlist.create({
-  //     data: {
-  //       userId: user1.id,
-  //       title: "Himzi",
-  //       videos: { connect: { id: video1.id } },
-  //     },
-  //   });
-  // }
+  if (!review || !user) {
+    console.log(
+      `Review atau user tidak ditemukan untuk like ${likeData.reviewVideoPlatformId} ${likeData.reviewUserUsername} ${likeData.userUsername}`
+    );
+    continue;
+  }
+
+  const like = await prisma.like.create({
+    data: {
+      reviewId: review.id,
+      userId: user.id,
+    },
+  });
+  console.info(` Like: ${like.id}`);
+}
 
   // const existingLike = await prisma.like.findFirst({
   //   where: { userId: user1.id, reviewId: review1.id },
