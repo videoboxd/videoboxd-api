@@ -3,7 +3,7 @@ const csv = require("csv-parser");
 
 const results = [];
 
-fs.createReadStream("path/to/your/videos.csv")
+fs.createReadStream("./videos.csv")
   .pipe(csv())
   .on("data", (data) => results.push(data))
   .on("end", () => {
@@ -20,6 +20,6 @@ fs.createReadStream("path/to/your/videos.csv")
       userUsername: row.userUsername,
     }));
 
-    fs.writeFileSync("data/videos.js", `export const videos = ${JSON.stringify(videos, null, 2)};`);
+    fs.writeFileSync("./data/videos.ts", `export const videos = ${JSON.stringify(videos, null, 2)};`);
     console.log("Conversion complete!");
   });
