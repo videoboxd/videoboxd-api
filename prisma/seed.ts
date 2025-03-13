@@ -7,6 +7,7 @@ import { users } from "./data/users";
 import { videos } from "./data/videos";
 import { reviews } from "./data/reviews";
 import { reviewComments } from "./data/reviewComments";
+import { playlists } from "./data/playlists";
 
 const prisma = new PrismaClient();
 
@@ -135,19 +136,35 @@ for (const commentData of reviewComments) {
   console.info(` Review Comment: ${comment.id}`);
 }
 
-  // const existingComment = await prisma.reviewComment.findFirst({
-  //   where: { userId: user1.id, reviewId: review1.id },
-  // });
+// Playlist
+for (const playlistData of playlists) {
+  const user = await prisma.user.findUnique({
+    where: { username: playlistData.userUsername },
+  });
 
-  // if (!existingComment) {
-  //   await prisma.reviewComment.create({
-  //     data: {
-  //       reviewId: review1.id,
-  //       userId: user1.id,
-  //       text: "HAHAHAHAHHA",
-  //     },
-  //   });
-  // }
+  if (!user) {
+    console.log(`User tidak ditemukan untuk playlist ${playlistData.title}`);
+    continue;
+  }
+
+  const playlist = await prisma.playlist.create({
+    data: {
+      title: playlistData.title,
+      userId: user.id,
+      videos: {
+        connect: await Promise.all(
+          playlistData.videoPlatformIds.map(async (platformVideoId) => {
+            const video = await prisma.video.findUnique({
+              where: { platformVideoId },
+            });
+            return { id: video?.id };
+          })
+        ),
+      },
+    },
+  });
+  console.info(` Playlist: ${playlist.title}`);
+}
 
   // const existingPlaylist = await prisma.playlist.findFirst({
   //   where: { userId: user1.id, title: "Himzi" },
