@@ -26,6 +26,7 @@
     "@prisma/client": "^6.4.0",
     "@scalar/hono-api-reference": "^0.5.179",
     "@types/node": "^22.13.4",
+    "csv-parser": "^3.2.0",
     "hono": "^4.7.2",
     "prisma": "^6.4.0",
     "prisma-dbml-generator": "^0.12.0",

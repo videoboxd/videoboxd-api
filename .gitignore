@@ -3,3 +3,7 @@ node_modules/
 .env
 prisma/dbml
 prisma/generated
+yt-dlp.exe
+# src/lib/data/videos.ts
+# src/lib/videos.csv
+# src/lib/convert-csv.js
