@@ -4,6 +4,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "baseUrl": ".",
+    "esModuleInterop": true,
     "paths": {
       "@/*": ["src/*"],
       "@auth/*": ["src/features/auth/*"],
