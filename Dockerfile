@@ -17,3 +17,5 @@ RUN bunx yt-dlp-wrap download
 
 # Run the application
 CMD ["bun", "start"]
+
+
