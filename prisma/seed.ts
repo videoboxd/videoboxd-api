@@ -29,7 +29,7 @@ async function main() {
   // Categories
   for (const category of categories) {
     const upsertedCategory = await prisma.category.upsert({
-      where: { slug: category.name },
+      where: { name: category.name },
       update: category,
       create: category,
     });
