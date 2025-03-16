@@ -12,8 +12,9 @@ COPY . .
 RUN bun install
 RUN bun db:gen
 
-# Install yt-dlp manually via pip
-RUN apt-get update && apt-get install -y python3 python3-pip && pip3 install yt-dlp
+# Install yt-dlp separately
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install --break-system-packages yt-dlp
 
 # Run the application
 CMD ["bun", "start"]
