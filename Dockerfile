@@ -12,8 +12,11 @@ COPY . .
 RUN bun install
 RUN bun db:gen
 
-# Ensure yt-dlp binary is downloaded for deployment
-# RUN bunx yt-dlp-wrap download
+# Download yt-dlp binary manually and ensure it's available globally
+RUN bunx yt-dlp-wrap download --path /usr/local/bin/yt-dlp
+
+# Set executable permission (just in case)
+RUN chmod +x /usr/local/bin/yt-dlp
 
 # Run the application
 CMD ["bun", "start"]
