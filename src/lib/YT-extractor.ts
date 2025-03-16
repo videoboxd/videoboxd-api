@@ -9,7 +9,7 @@ interface VideoInfo {
 }
 
 
-const ytDlp = new YTDlpWrap('/usr/bin/yt-dlp'); // Set the correct system path
+const ytDlp = new YTDlpWrap('/usr/local/bin/yt-dlp');
  
 
 async function extractVideoInfo(videoUrl: string): Promise<VideoInfo | null> {
