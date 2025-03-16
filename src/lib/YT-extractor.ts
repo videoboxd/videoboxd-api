@@ -7,10 +7,10 @@ interface VideoInfo {
   uploadDate: Date | null
   description: string
 }
-const ytDlpPath = '/usr/local/bin/yt-dlp'; // Explicitly set the path
 
 
-const ytDlp = new YTDlpWrap(ytDlpPath); 
+const ytDlp = new YTDlpWrap('/usr/bin/yt-dlp'); // Set the correct system path
+ 
 
 async function extractVideoInfo(videoUrl: string): Promise<VideoInfo | null> {
   try {
