@@ -4,8 +4,9 @@ FROM oven/bun:1.1
 # Set working directory
 WORKDIR /usr/src/app
 
-# Install yt-dlp standalone (no Python needed)
-RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp \
+# Install curl and yt-dlp standalone (no Python needed)
+RUN apt-get update && apt-get install -y curl \
+    && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp \
     && chmod a+rx /usr/local/bin/yt-dlp
 
 # Verify installation
@@ -25,4 +26,4 @@ RUN bun prisma generate
 EXPOSE 3000
 
 # Start the app
-CMD ["bun", "run", "start"]
+CMD ["bun", "start"]
