@@ -62,5 +62,21 @@ export const reviewService = {
     });
 
     return updatedReview
+  },
+
+  deleteReview: async (identifier: string) => {
+    const checkReview = await prisma.review.findUnique({
+      where: {
+        id: identifier
+      }
+    });
+
+    if (!checkReview) {
+      throw new HTTPException(404, { message: "Review not found" });
+    }
+
+    await prisma.review.delete({
+      where: { id: checkReview.id },
+    });
   }
 };

@@ -158,6 +158,52 @@ reviewsRoute.openapi(
             }
             return handleErrorResponse(c, `Failed to update review: ${error}`, 500);
         }
+    },
+)
+
+reviewsRoute.openapi(
+    {
+        method: "delete",
+        path: "/{identifier}",
+        summary: "Delete a video review",
+        description: "Delete a video review by ID.",
+        tags: API_TAGS.REVIEWS,
+        security: [{ AuthorizationBearer: [] }],
+        middleware: authMiddleware,
+        request: {
+            params: z.object({ identifier: z.string() }),
+        },
+        responses: {
+            200: {
+                description: "Video deleted successfully",
+                content: {
+                  "application/json": {
+                    schema: z.object({
+                      success: z.boolean().default(true),
+                      message: z.string().default("Review deleted successfully"),
+                    }),},
+                },
+            },
+            404: { description: "Review not found." },
+            500: { description: "Internal server error. Failed to delete a video review.",},
+        }
+    },
+
+    async (c: Context) => {
+        try {
+            const identifier = c.req.param("identifier");
+            if (!identifier) {
+                return handleErrorResponse(c, "Identifier is required", 400);
+            }
+
+            await reviewService.deleteReview(identifier);
+            return c.json({message: "Review deleted sucessfully", success: true}, 200)
+        } catch (error) {
+            if (error instanceof HTTPException) {
+                return c.json({ message: error.message }, error.status);
+            }
+            return handleErrorResponse(c, `Failed to delete a video review: ${error}`, 500);
+        }
     }
 )
 
