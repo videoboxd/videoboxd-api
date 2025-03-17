@@ -1,6 +1,8 @@
 # Use the official Bun image with Debian Linux
-# Oven is the company name, the creator of Bun
 FROM oven/bun:1.1
+
+# Install Python
+RUN apt-get update && apt-get install -y python3 python3-pip
 
 # Create and change to the app directory
 WORKDIR /usr/src/app
@@ -17,5 +19,3 @@ RUN bun db:gen
 
 # Run the application
 CMD ["bun", "start"]
-
-
