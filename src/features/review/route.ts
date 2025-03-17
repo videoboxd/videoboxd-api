@@ -36,7 +36,7 @@ reviewsRoute.openapi(
     async (c: Context) => {
         try {
             const reviews = await reviewService.getAllReviews();
-            return c.json(reviews, 200);
+            return c.json( { message: "Successfully retrieved all video reviews", content: reviews }, 200);
         } catch(error) {
             return handleErrorResponse(c, `Failed to retrieve reviews: ${error}`, 500);
         }
@@ -108,7 +108,7 @@ reviewsRoute.openapi(
             const body = c.req.valid("json");
             const user = c.get("user") as AppVariables;
             const reviews = await reviewService.createReview( body, user.id );
-            return c.json(reviews, 200);
+            return c.json( { message: "Successfully create new video review", content: reviews }, 201);
         } catch(error) {
             if (error instanceof HTTPException) {
                 return c.json({ message: error.message }, error.status);
@@ -151,7 +151,7 @@ reviewsRoute.openapi(
             const reviewData = await c.req.json<z.infer<typeof UpdateReviewSchema>>();
             const updatedReview = await reviewService.updateReview(identifier, reviewData);
 
-            return c.json({message: "Review updated sucessfully", content: updatedReview}, 200);
+            return c.json({ message: "Review updated sucessfully", content: updatedReview }, 200);
         } catch(error) {
             if (error instanceof HTTPException) {
                 return c.json({ message: error.message }, error.status);
