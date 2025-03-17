@@ -12,7 +12,7 @@ COPY . .
 
 # Install app dependencies
 RUN bun install
-RUN bun db:gen
+RUN bun prisma generate --no-hints
 
 # Ensure yt-dlp binary is downloaded for deployment
 # RUN bunx yt-dlp-wrap download
