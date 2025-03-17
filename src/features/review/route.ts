@@ -3,7 +3,7 @@ import { OpenAPIHono, z } from "@hono/zod-openapi";
 import { Context } from "hono";
 import { reviewService } from "./service";
 import { authMiddleware, AppVariables } from "@/middleware/auth-middleware";
-import { CreateReviewSchema } from "./schema";
+import { CreateReviewSchema, UpdateReviewSchema } from "./schema";
 import { ReviewSchema } from "@prisma/generated/zod";
 import { HTTPException } from "hono/http-exception";
 
@@ -117,5 +117,48 @@ reviewsRoute.openapi(
         }
     }
 );
+
+reviewsRoute.openapi(
+    {
+        method: "patch",
+        path: "/{identifier}",
+        summary: "Updates an existing review by ID.",
+        tags: API_TAGS.REVIEWS,
+        security: [{ AuthorizationBearer: [] }],
+        middleware: authMiddleware,
+        request: {
+            params: z.object({ identifier: z.string() }),
+            body: { content: { "application/json": { schema: UpdateReviewSchema } }}
+        },
+        responses: {
+            200: {
+                description: "Review updated successfully",
+                content: {"application/json": { schema: ReviewSchema },},
+            },
+            400: { description: "Validation error." },
+            404: { description: "Review not found." },
+            500: { description: "Internal server error. Failed to update a review."},
+        }
+    },
+
+    async (c: Context) => {
+        try {
+            const identifier = c.req.param("identifier");
+            if (!identifier) {
+                return handleErrorResponse(c, "Identifier is required", 400);
+            }
+
+            const reviewData = await c.req.json<z.infer<typeof UpdateReviewSchema>>();
+            const updatedReview = await reviewService.updateReview(identifier, reviewData);
+
+            return c.json({message: "Review updated sucessfully", content: updatedReview}, 200);
+        } catch(error) {
+            if (error instanceof HTTPException) {
+                return c.json({ message: error.message }, error.status);
+            }
+            return handleErrorResponse(c, `Failed to update review: ${error}`, 500);
+        }
+    }
+)
 
 export default reviewsRoute;

@@ -5,3 +5,5 @@ export const CreateReviewSchema = ReviewSchema.pick({
   rating: true,
   text: true
 });
+
+export const UpdateReviewSchema = ReviewSchema.partial();
