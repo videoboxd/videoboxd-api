@@ -36,9 +36,27 @@ export const videoService = {
   ) => {
     try {
       const { originalUrl, categorySlug } = body;
+
+      // Validate and extract video ID
+      const videoIdMatch = originalUrl.match(/[?&]v=([^&]+)/);
+      if (!videoIdMatch) {
+        throw new HTTPException(400, { message: "Invalid YouTube URL" });
+      }
+      const platformVideoId = videoIdMatch[1];
   
       // Ekstrak informasi video dari link YouTube
       const videoInfo = await extractVideoInfo(originalUrl);
+      if (!videoInfo) {
+      throw new HTTPException(500, { message: "Failed to extract video info" });
+    }
+
+      const existingVideo = await prisma.video.findUnique({
+        where: { platformVideoId },
+      });
+
+      if (existingVideo) {
+        throw new HTTPException(409, { message: "Video already exists in the database" });
+      }
   
       if (videoInfo) {
         let formattedDate = null;
