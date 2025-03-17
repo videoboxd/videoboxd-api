@@ -40,63 +40,70 @@ export const videoService = {
       // Ekstrak informasi video dari link YouTube
       const videoInfo = await extractVideoInfo(originalUrl);
   
-      // if (videoInfo) {
-      //   // Buat data video lengkap dengan informasi yang diekstrak
-      //   const videoData = {
-      //     platformVideoId: originalUrl.split("v=")[1], // Ambil ID video dari URL
-      //     originalUrl,
-      //     title: videoInfo.title,
-      //     description: videoInfo.description,
-      //     thumbnail: videoInfo.thumbnail,
-      //     // uploadedAt: videoInfo.uploadDate,
-      //     userId,
-      //     // categories: body.categorySlug
-      //     //   ? { connect: body.categorySlug.map((id) => ({ id })) }
-      //     //   : undefined,
-      //     // tags: body.tags,
-      //   };
+      if (videoInfo) {
+        let formattedDate = null;
+
+        if (videoInfo.uploadDate) {
+          formattedDate = new Date(
+            `${videoInfo.uploadDate.slice(0, 4)}-${videoInfo.uploadDate.slice(4, 6)}-${videoInfo.uploadDate.slice(6, 8)}`
+          );
+        }
+
+        // Buat data video lengkap dengan informasi yang diekstrak
+        const videoData = {
+          platformVideoId: originalUrl.split("v=")[1], // Ambil ID video dari URL
+          originalUrl,
+          title: videoInfo.title,
+          description: videoInfo.description,
+          thumbnail: videoInfo.thumbnail,
+          uploadedAt: formattedDate,
+          userId,
+          // categories: body.categorySlug
+          //   ? { connect: body.categorySlug.map((id) => ({ id })) }
+          //   : undefined,
+          // tags: body.tags,
+        };
   
         // Cari platform berdasarkan slug atau ID
-        // const platform = await prisma.platform.findFirst({
-        //   where: {
-        //     OR: [{ slug: 'youtube' }], // Karena kita hanya menangani YouTube
-        //   },
-        // });
+        const platform = await prisma.platform.findFirst({
+          where: {
+            OR: [{ slug: 'youtube' }], // Karena kita hanya menangani YouTube
+          },
+        });
   
-        // if (!platform) {
-        //   throw new HTTPException(404, { message: "Platform not found" });
-        // }
+        if (!platform) {
+          throw new HTTPException(404, { message: "Platform not found" });
+        }
 
-     // Cari kategori berdasarkan slug
-      // const categories = await prisma.category.findUnique({
-      // where: { slug: categorySlug },
-    // });
+      // Cari kategori berdasarkan slug
+      const categories = await prisma.category.findUnique({
+        where: { slug: categorySlug },
+      });
 
-    // if (!categories) {
-    //   throw new HTTPException(404, { message: `Category with slug '${categorySlug}' not found` });
-    // }
+      if (!categories) {
+        throw new HTTPException(404, { message: `Category with slug '${categorySlug}' not found` });
+      }
 
-        // Simpan video ke database
-        // const video = await prisma.video.create({
-        //   data: {
-        //     ...videoData,
-        //     platformId: platform.id,
-        //     categories: {
-        //       connect: { id: categories.id },
-        //     },
-        //   },
-        //   include: {
-        //     platform: true,
-        //     categories: true,
-        //   },
-        // });
+      // Simpan video ke database
+      const video = await prisma.video.create({
+        data: {
+          ...videoData,
+          platformId: platform.id,
+          categories: {
+            connect: { id: categories.id },
+          },
+        },
+        include: {
+          platform: true,
+          categories: true,
+        },
+      });
   
-        return videoInfo;
-      // } else {
-      //   // Jika gagal mengekstrak informasi video, kembalikan error
-      //   throw new HTTPException(500, { message: "Failed to extract video info" });
-      // }
-    }  catch (error) {
+      return video;
+    } else {
+        // Jika gagal mengekstrak informasi video, kembalikan error
+        throw new HTTPException(500, { message: "Failed to extract video info" });
+    }} catch (error) {
       console.error(error);
       throw new HTTPException(404, { message: "Failed to create video" });
     }

@@ -5,7 +5,7 @@ import { HTTPException } from 'hono/http-exception'
 interface VideoInfo {
   title: string
   thumbnail: string
-  uploadDate: Date | null
+  uploadDate: string | null
   description: string
 }
 
