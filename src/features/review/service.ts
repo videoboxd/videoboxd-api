@@ -10,6 +10,16 @@ export const reviewService = {
     return result;
   },
 
+  getReviewByIdentifier: async (identifier: string) => {
+    const review = await prisma.review.findUnique({
+      where: {
+        id: identifier,
+      },
+    });
+
+    return review;
+  },
+
   createReview: async (body: z.infer<typeof CreateReviewSchema>, userId: string) => {
     const checkVideo = await prisma.video.findUnique({
       where: {
@@ -21,11 +31,13 @@ export const reviewService = {
       throw new HTTPException(404, { message: "Video not found" });
     }
 
-    return await prisma.review.create({
+    const review = await prisma.review.create({
       data: {
         ...body,
         userId: userId,
       },
     });
+
+    return review;
   },
 };

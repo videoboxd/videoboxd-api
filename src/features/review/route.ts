@@ -45,6 +45,43 @@ reviewsRoute.openapi(
 
 reviewsRoute.openapi(
     {
+        method: "get",
+        path: "/{identifier}",
+        summary: "Get review details",
+        description: "Return the review details by review ID",
+        tags: API_TAGS.REVIEWS,
+        request: {
+            params: z.object({ identifier: z.string() }),
+        },
+        responses: {
+            200: {
+                description: "Review details retrieved sucessfully",
+                content: { "application/json": { schema: z.object({}) },},
+            },
+            404 : { description: "Review not found. "},
+            500: { description: "Internal server error. Failed to retrieve the list of reviews." },
+        },
+    },
+
+    async (c) => {
+        try {
+            const { identifier } = c.req.valid("param");
+            const review = await reviewService.getReviewByIdentifier(identifier);
+            if (!review){
+                return handleErrorResponse(c, "Review not found", 404);
+            }
+            return c.json({message: "Review details retrieved sucessfully", content: review}, 200);
+        } catch(error) {
+            if (error instanceof HTTPException) {
+                return c.json({ message: error.message }, error.status);
+            }
+            return handleErrorResponse(c, `Failed to retrieve reviews: ${error}`, 500);
+        }
+    }
+);
+
+reviewsRoute.openapi(
+    {
         method: "post",
         path: "/",
         summary: "New review entry",
@@ -65,6 +102,7 @@ reviewsRoute.openapi(
             500: { description: "Internal server error. Failed to create video review."},
         },
     },
+
     async (c: Context) => {
         try {
             const body = c.req.valid("json");
