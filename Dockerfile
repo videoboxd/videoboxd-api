@@ -1,29 +1,21 @@
-# Use Bun's official image
+# Use the official Bun image with Debian Linux
 FROM oven/bun:1.1
 
-# Set working directory
+# Install Python
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+# Create and change to the app directory
 WORKDIR /usr/src/app
 
-# Install curl and download yt-dlp standalone binary
-RUN apt-get update && apt-get install -y curl \
-    && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux -o /usr/local/bin/yt-dlp \
-    && chmod a+rx /usr/local/bin/yt-dlp
-
-# Verify installation
-RUN /usr/local/bin/yt-dlp --version
-
-# Copy package files and install dependencies
-COPY package.json bun.lockb ./
-RUN bun install
-
-# Copy the rest of the app
+# Copy app files
 COPY . .
 
-# Generate Prisma client
-RUN bun prisma generate
+# Install app dependencies
+RUN bun install
+RUN bun db:gen
 
-# Expose the correct port (adjust if needed)
-# EXPOSE 3000
+# Ensure yt-dlp binary is downloaded for deployment
+# RUN bunx yt-dlp-wrap download
 
-# Start the app
+# Run the application
 CMD ["bun", "start"]

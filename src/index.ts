@@ -7,6 +7,7 @@ import { ZodError } from "zod";
 import authRoute from "./features/auth/route";
 import usersRoute from "./features/user/route";
 import videosRoute from "./features/video/route";
+import reviewsRoute from "./features/review/route";
 
 const app = new OpenAPIHono();
 
@@ -36,6 +37,7 @@ app.get(
 app.route("/auth", authRoute);
 app.route("/users", usersRoute);
 app.route("/videos", videosRoute);
+app.route("/reviews", reviewsRoute);
 
 // Error Handling
 app.onError(async (err, c) => {
