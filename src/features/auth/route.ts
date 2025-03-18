@@ -140,18 +140,14 @@ authRoute.openapi(
         content: {
           "application/json": {
             schema: z.object({
-              success: z.boolean().default(true),
-              message: z.string().default("Successfully fetched user data"),
-              data: z.object({
-                id: z.number().default(1),
-                fullName: z.string().default("Fathur"),
-                email: z.string().default("fathur@mail.com"),
-                avatarUrl: z
-                  .string()
-                  .default(
-                    "https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=fathur&size=64"
-                  ),
-              }),
+              id: z.number().default(1),
+              fullName: z.string().default("Fathur"),
+              email: z.string().default("fathur@mail.com"),
+              avatarUrl: z
+                .string()
+                .default(
+                  "https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=fathur&size=64"
+                ),
             }),
           },
         },
@@ -199,13 +195,7 @@ authRoute.openapi(
       200: {
         content: {
           "application/json": {
-            schema: z.object({
-              success: z.boolean().default(true),
-              message: z
-                .string()
-                .default("Access token refreshed successfully"),
-              data: z.boolean().default(true),
-            }),
+            schema: z.boolean().default(true),
           },
         },
         description:
@@ -275,11 +265,7 @@ authRoute.openapi(
       200: {
         content: {
           "application/json": {
-            schema: z.object({
-              success: z.boolean().default(true),
-              message: z.string().default("User logged out successfully"),
-              data: z.boolean().default(true),
-            }),
+            schema: z.boolean().default(true),
           },
         },
         description:

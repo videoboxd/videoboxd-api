@@ -41,17 +41,7 @@ usersRoute.openapi(
     responses: {
       200: {
         description: "User details retrieved successfully",
-        content: {
-          "application/json": {
-            schema: z.object({
-              success: z.boolean().default(true),
-              message: z
-                .string()
-                .default("User details retrieved successfully"),
-              data: userSchema.GetUserDetail,
-            }),
-          },
-        },
+        content: { "application/json": { schema: userSchema.GetUserDetail } },
       },
       404: {
         description:

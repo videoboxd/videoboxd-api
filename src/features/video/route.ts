@@ -137,7 +137,6 @@ videosRoute.openapi(
         content: {
           "application/json": {
             schema: z.object({
-              success: z.boolean().default(true),
               message: z.string().default("Video deleted successfully"),
             }),
           },
