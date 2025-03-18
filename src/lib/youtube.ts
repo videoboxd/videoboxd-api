@@ -1,15 +1,21 @@
-import youtubedl from "youtube-dl-exec";
+import { youtube } from "@googleapis/youtube";
 
-async function getVideoInfo(videoUrl: string) {
-  return await youtubedl(videoUrl, {
-    dumpSingleJson: true,
-    noCheckCertificates: true,
-    noWarnings: true,
-    preferFreeFormats: true,
-    addHeader: ["referer:youtube.com", "user-agent:googlebot"],
+const youtubeClient = youtube({
+  version: "v3",
+  auth: process.env.GOOGLE_API_KEY,
+});
+
+export async function getVideoInfo(videoId: string) {
+  const result = await youtubeClient.videos.list({
+    id: [videoId],
+    part: ["id", "snippet"],
   });
+
+  if (!result.data.items || result.data.items.length === 0) {
+    return null;
+  }
+
+  return result.data.items[0].snippet;
 }
 
-getVideoInfo("https://www.youtube.com/watch?v=VChRPFUzJGA").then((result) =>
-  console.log(result)
-);
+// getVideoInfo("VChRPFUzJGA").then((result) => console.log(result));

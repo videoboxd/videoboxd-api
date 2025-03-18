@@ -23,6 +23,7 @@
     "seed": "bun prisma/seed.ts"
   },
   "dependencies": {
+    "@googleapis/youtube": "^22.0.0",
     "@hono/zod-openapi": "^0.19.2",
     "@prisma/client": "^6.5.0",
     "@scalar/hono-api-reference": "^0.5.184",

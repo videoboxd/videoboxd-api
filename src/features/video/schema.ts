@@ -27,3 +27,12 @@ export const CreateVideoSchema = z.object({
 });
 
 export const UpdateVideoSchema = VideoSchema.partial();
+
+export const YouTubeVideoInfoSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  thumbnails: z.object({
+    maxres: z.object({ url: z.string() }),
+  }),
+  publishedAt: z.string(),
+});

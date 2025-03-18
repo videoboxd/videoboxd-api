@@ -3,8 +3,13 @@ import { z } from "@hono/zod-openapi";
 import { HTTPException } from "hono/http-exception";
 import extractVideoInfo from "archive/yt-dlp-wrap/YT-extractor";
 
-import { CreateVideoSchema, UpdateVideoSchema } from "@/features/video/schema";
+import {
+  CreateVideoSchema,
+  UpdateVideoSchema,
+  YouTubeVideoInfoSchema,
+} from "@/features/video/schema";
 import { Prisma } from "@prisma/client";
+import { getVideoInfo } from "@/lib/youtube";
 
 export const videoService = {
   getAllVideos: async () => {
@@ -45,6 +50,8 @@ export const videoService = {
       }
       const platformVideoId = videoIdMatch[1];
 
+      console.log({ platformVideoId });
+
       // TODO: Use simpler string parse to get the video ID
       const existingVideo = await prisma.video.findUnique({
         where: { platformVideoId },
@@ -54,23 +61,17 @@ export const videoService = {
         throw new HTTPException(409, { message: "Video already exists" });
       }
 
-      // Ekstrak informasi video dari link YouTube
-      const videoInfo = await extractVideoInfo(originalUrl);
-      if (!videoInfo) {
-        throw new HTTPException(500, {
-          message: "Failed to extract video info",
-        });
+      const youtubeVideoInfo = await getVideoInfo(platformVideoId);
+      if (!youtubeVideoInfo) {
+        throw new HTTPException(404, { message: "Video info not available" });
       }
 
-      const formattedDate = videoInfo.uploadDate
-        ? // TODO: Extract this into a function
-          new Date(
-            `${videoInfo.uploadDate.slice(0, 4)}-${videoInfo.uploadDate.slice(
-              4,
-              6
-            )}-${videoInfo.uploadDate.slice(6, 8)}`
-          )
-        : null;
+      console.log({ youtubeVideoInfo });
+
+      const videoInfo = YouTubeVideoInfoSchema.safeParse(youtubeVideoInfo).data;
+      if (!videoInfo) {
+        throw new HTTPException(400, { message: "Invalid video info" });
+      }
 
       const platform = await prisma.platform.findUnique({
         where: { slug: "youtube" },
@@ -86,8 +87,8 @@ export const videoService = {
           originalUrl,
           title: videoInfo.title,
           description: videoInfo.description,
-          thumbnailUrl: videoInfo.thumbnail,
-          uploadedAt: formattedDate,
+          thumbnailUrl: videoInfo.thumbnails.maxres.url,
+          uploadedAt: videoInfo.publishedAt,
           userId,
           categories: { connect: [{ slug: categorySlug }] },
           platformId: platform.id,
