@@ -43,16 +43,13 @@ export const videoService = {
     try {
       const { originalUrl, categorySlug } = body;
 
-      // Validate and extract video ID
+      // TODO: Use simpler string parse to get the video ID
       const videoIdMatch = originalUrl.match(/[?&]v=([^&]+)/);
       if (!videoIdMatch) {
         throw new HTTPException(400, { message: "Invalid YouTube URL" });
       }
       const platformVideoId = videoIdMatch[1];
 
-      console.log({ platformVideoId });
-
-      // TODO: Use simpler string parse to get the video ID
       const existingVideo = await prisma.video.findUnique({
         where: { platformVideoId },
       });
@@ -65,8 +62,6 @@ export const videoService = {
       if (!youtubeVideoInfo) {
         throw new HTTPException(404, { message: "Video info not available" });
       }
-
-      console.log({ youtubeVideoInfo });
 
       const videoInfo = YouTubeVideoInfoSchema.safeParse(youtubeVideoInfo).data;
       if (!videoInfo) {

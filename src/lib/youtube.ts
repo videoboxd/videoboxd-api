@@ -17,5 +17,3 @@ export async function getVideoInfo(videoId: string) {
 
   return result.data.items[0].snippet;
 }
-
-// getVideoInfo("VChRPFUzJGA").then((result) => console.log(result));

@@ -18,7 +18,7 @@ async function initializaYtWrap() {
   }
 
   if (!fs.existsSync(FILE_PATH)) {
-    console.log("yt-dlp not found. Downloading latest version...");
+    console.error("yt-dlp not found. Downloading latest version...");
 
     const latestVersion = (await YTDlpWrap.getGithubReleases(1, 1))[0].tag_name;
 
