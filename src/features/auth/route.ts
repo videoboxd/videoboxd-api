@@ -22,11 +22,7 @@ authRoute.openapi(
     tags: API_TAGS.AUTH,
     request: {
       body: {
-        content: {
-          "application/json": {
-            schema: authSchema.RegisterUser,
-          },
-        },
+        content: { "application/json": { schema: authSchema.RegisterUser } },
       },
     },
     responses: {
@@ -35,46 +31,28 @@ authRoute.openapi(
         content: {
           "application/json": {
             schema: z.object({
-              success: z.boolean().default(true),
-              message: z
+              id: z.number().default(1),
+              username: z.string().default("Fathur"),
+              fullName: z.string().default("Fathur"),
+              email: z.string().default("fathur@mail.com"),
+              avatarUrl: z
                 .string()
-                .default("Your account has been successfully created!"),
-              data: z.object({
-                id: z.number().default(1),
-                username: z.string().default("Fathur"),
-                fullName: z.string().default("Fathur"),
-                email: z.string().default("fathur@mail.com"),
-                avatarUrl: z
-                  .string()
-                  .default(
-                    `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=Fathur&size=64`
-                  ),
-              }),
+                .default(
+                  `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=Fathur&size=64`
+                ),
+              // accessToken: z.string().default("access_token"),
+              // refreshToken: z.string().default("refresh_token"),
             }),
           },
         },
       },
-      400: {
-        description:
-          "Invalid input. Please check the provided data and try again.",
-      },
-      500: {
-        description:
-          "Internal server error. Failed to register user due to a server issue.",
-      },
+      400: { description: "Failed to register user due to invalid input" },
+      500: { description: "Failed to register user due to a server issue" },
     },
   },
   async (c) => {
-    const response = await authService.registerUser(c.req.valid("json"));
-
-    return c.json(
-      {
-        success: true,
-        message: "Your account has been successfully created!",
-        data: response,
-      },
-      201
-    );
+    const result = await authService.registerUser(c.req.valid("json"));
+    return c.json(result, 201);
   }
 );
 
@@ -103,30 +81,20 @@ authRoute.openapi(
         content: {
           "application/json": {
             schema: z.object({
-              success: z.boolean().default(true),
-              message: z.string().default("User logged in successfully"),
-              data: z.object({
-                id: z.number().default(1),
-                fullName: z.string().default("Fathur"),
-                email: z.string().default("fathur@mail.com"),
-                avatarUrl: z
-                  .string()
-                  .default(
-                    `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=Fathur&size=64`
-                  ),
-              }),
+              id: z.number().default(1),
+              fullName: z.string().default("Fathur"),
+              email: z.string().default("fathur@mail.com"),
+              avatarUrl: z
+                .string()
+                .default(
+                  `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=Fathur&size=64`
+                ),
             }),
           },
         },
       },
-      401: {
-        description:
-          "Unauthorized. The request lacks valid authentication credentials or the provided credentials are invalid.",
-      },
-      500: {
-        description:
-          "Internal server error. Failed to register user due to a server issue.",
-      },
+      400: { description: "Failed to login because of invalid credentials" },
+      500: { description: "Failed to login due to a server issue" },
     },
   },
   async (c) => {
@@ -137,6 +105,7 @@ authRoute.openapi(
       accessTokenPayload,
       Bun.env.ACCESS_TOKEN_SECRET!
     );
+
     const refreshToken = await sign(
       refreshTokenPayload,
       Bun.env.REFRESH_TOKEN_SECRET!
@@ -145,14 +114,12 @@ authRoute.openapi(
     await setAuthCookies(c, accessToken, refreshToken, Bun.env.COOKIE_SECRET!);
 
     return c.json({
-      success: true,
-      message: "User logged in successfully",
-      data: {
-        id: accessTokenPayload.id,
-        fullName: accessTokenPayload.fullName,
-        email: accessTokenPayload.email,
-        avatarUrl: accessTokenPayload.avatarUrl,
-      },
+      id: accessTokenPayload.id,
+      fullName: accessTokenPayload.fullName,
+      email: accessTokenPayload.email,
+      avatarUrl: accessTokenPayload.avatarUrl,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     });
   }
 );
@@ -210,14 +177,10 @@ authRoute.openapi(
   async (c) => {
     const user = c.get("user") as User;
     return c.json({
-      success: true,
-      message: "Successfully fetched user data",
-      data: {
-        id: user.id,
-        fullName: user.fullName,
-        email: user.email,
-        avatarUrl: user.avatarUrl,
-      },
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      avatarUrl: user.avatarUrl,
     });
   }
 );
@@ -300,8 +263,8 @@ authRoute.openapi(
 // Logout User
 authRoute.openapi(
   {
-    method: "delete",
-    path: "/me",
+    method: "post",
+    path: "/logout",
     summary: "Log out the current user",
     description:
       "Logs out the current user by clearing the access token and refresh token cookies. This effectively invalidates the user's session, and they will need to log in again to access protected routes.",
@@ -357,11 +320,7 @@ authRoute.openapi(
 
     clearAuthCookies(c);
 
-    return c.json({
-      success: true,
-      message: "User logged out succesfully",
-      data: true,
-    });
+    return c.json({ message: "Logged out" });
   }
 );
 

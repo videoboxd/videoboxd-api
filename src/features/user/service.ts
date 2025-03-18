@@ -17,6 +17,7 @@ export const getUserByParam = async (param: string) => {
       OR: [{ id: param }, { email: param }, { username: param }],
     },
     include: {
+      videos: { orderBy: { createdAt: "desc" } },
       reviews: { orderBy: { createdAt: "desc" } },
       comments: { orderBy: { createdAt: "desc" } },
       playlists: { orderBy: { createdAt: "desc" } },

@@ -1,5 +1,6 @@
 {
   "name": "videoboxd-api",
+  "type": "module",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "start": "bun run src/index.ts",
@@ -23,23 +24,23 @@
   },
   "dependencies": {
     "@hono/zod-openapi": "^0.19.2",
-    "@prisma/client": "^6.4.0",
-    "@scalar/hono-api-reference": "^0.5.179",
-    "@types/node": "^22.13.4",
-    "csv-parser": "^3.2.0",
-    "hono": "^4.7.2",
-    "prisma": "^6.4.0",
+    "@prisma/client": "^6.5.0",
+    "@scalar/hono-api-reference": "^0.5.184",
+    "@types/node": "^22.13.10",
+    "hono": "^4.7.4",
+    "prisma": "^6.5.0",
     "prisma-dbml-generator": "^0.12.0",
     "tsx": "^4.19.3",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.2",
+    "youtube-dl-exec": "^3.0.19",
     "yt-dlp-wrap": "^2.3.12",
     "zod-prisma-types": "^3.2.4"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@vitest/coverage-istanbul": "^3.0.7",
-    "@vitest/coverage-v8": "^3.0.7",
-    "@vitest/ui": "^3.0.7",
-    "vitest": "^3.0.7"
+    "@vitest/coverage-istanbul": "^3.0.9",
+    "@vitest/coverage-v8": "^3.0.9",
+    "@vitest/ui": "^3.0.9",
+    "vitest": "^3.0.9"
   }
 }

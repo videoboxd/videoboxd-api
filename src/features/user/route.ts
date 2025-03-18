@@ -16,32 +16,14 @@ usersRoute.openapi(
     responses: {
       200: {
         description: "Successfully get all users",
-        content: {
-          "application/json": {
-            schema: z.object({
-              success: z.boolean().default(true),
-              message: z.string().default("Users retrieved successfully"),
-              data: userSchema.GetUsers,
-            }),
-          },
-        },
+        content: { "application/json": { schema: userSchema.GetUsers } },
       },
-      500: {
-        description:
-          "Internal server error. Failed to retrieve the list of users.",
-      },
+      500: { description: "Failed to get all users" },
     },
   },
   async (c) => {
     const users = await userService.getAllUsers();
-
-    const data = userSchema.GetUsers.parse(users);
-
-    return c.json({
-      success: true,
-      message: "Users retrieved successfully",
-      data,
-    });
+    return c.json(users);
   }
 );
 
@@ -85,13 +67,7 @@ usersRoute.openapi(
 
     const user = await userService.getUserByParam(identifier);
 
-    const data = userSchema.GetUserDetail.parse(user);
-
-    return c.json({
-      success: true,
-      message: "User details retrieved successfully",
-      data,
-    });
+    return c.json(user);
   }
 );
 
