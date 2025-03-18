@@ -23,7 +23,7 @@ async function main() {
       update: platform,
       create: platform,
     });
-    console.info(`📺 Platform: ${upsertedPlatform.name}`);
+    console.info(`🏰 Platform: ${upsertedPlatform.name}`);
   }
 
   // Categories
@@ -36,7 +36,7 @@ async function main() {
     console.info(`📚 Category: ${upsertedCategory.name}`);
   }
 
-  // User
+  // Users
   for (const user of users) {
     const hashedPassword = await hashPassword(user.password);
     const upsertedUser = await prisma.user.upsert({
@@ -47,7 +47,7 @@ async function main() {
     console.info(`👤 User: ${upsertedUser.username}`);
   }
 
-  // Video
+  // Videos
   for (const videoData of videos) {
     const platform = await prisma.platform.findUnique({
       where: { slug: videoData.platformSlug },
@@ -61,7 +61,6 @@ async function main() {
       continue;
     }
 
-    // Buat objek baru tanpa platformSlug dan userUsername
     const { platformSlug, userUsername, ...videoDataWithoutSlugAndUsername } =
       videoData;
 
@@ -78,10 +77,10 @@ async function main() {
         userId: user.id,
       },
     });
-    console.info(` Video: ${video.title}`);
+    console.info(`📺 Video: ${video.title}`);
   }
 
-  // Seeding Reviews
+  // Reviews
   for (const reviewData of reviews) {
     const video = await prisma.video.findUnique({
       where: { platformVideoId: reviewData.videoPlatformId },
@@ -97,10 +96,10 @@ async function main() {
       continue;
     }
 
-    // Buat objek baru tanpa videoPlatformId dan userUsername
     const { videoPlatformId, userUsername, ...reviewDataWithoutIds } =
       reviewData;
 
+    await prisma.review.deleteMany({});
     const review = await prisma.review.create({
       data: {
         ...reviewDataWithoutIds,
@@ -108,7 +107,7 @@ async function main() {
         userId: user.id,
       },
     });
-    console.info(` Review: ${review.id}`);
+    console.info(`⭐ Review: (${review.rating}) ${review.text}`);
   }
 
   // Comments on Videos
@@ -130,6 +129,7 @@ async function main() {
       continue;
     }
 
+    await prisma.reviewComment.deleteMany({});
     const comment = await prisma.reviewComment.create({
       data: {
         text: commentData.text,
@@ -137,10 +137,10 @@ async function main() {
         userId: user.id,
       },
     });
-    console.info(` Review Comment: ${comment.id}`);
+    console.info(`💬 Review Comment: ${comment.text}`);
   }
 
-  // Playlist
+  // Playlists
   for (const playlistData of playlists) {
     const user = await prisma.user.findUnique({
       where: { username: playlistData.userUsername },
@@ -151,6 +151,7 @@ async function main() {
       continue;
     }
 
+    await prisma.playlist.deleteMany({});
     const playlist = await prisma.playlist.create({
       data: {
         title: playlistData.title,
@@ -167,7 +168,7 @@ async function main() {
         },
       },
     });
-    console.info(` Playlist: ${playlist.title}`);
+    console.info(`⏩ Playlist: ${playlist.title}`);
   }
 
   // Likes
@@ -189,16 +190,18 @@ async function main() {
       continue;
     }
 
+    await prisma.like.deleteMany({});
     const like = await prisma.like.create({
       data: {
         reviewId: review.id,
         userId: user.id,
       },
+      include: { user: { select: { username: true } } },
     });
-    console.info(` Like: ${like.id}`);
+    console.info(`👍 Like: ${like.user.username}`);
   }
 
-  // Follow
+  // Follows
   for (const followData of follows) {
     const follower = await prisma.user.findUnique({
       where: { username: followData.followerUsername },
@@ -214,13 +217,20 @@ async function main() {
       continue;
     }
 
+    await prisma.follow.deleteMany({});
     const follow = await prisma.follow.create({
       data: {
         followerId: follower.id,
         followingId: following.id,
       },
+      include: {
+        follower: { select: { username: true } },
+        following: { select: { username: true } },
+      },
     });
-    console.info(` Follow: ${follow.id}`);
+    console.info(
+      `🪿 Follow: ${follow.follower.username} -> ${follow.following.username}`
+    );
   }
 }
 

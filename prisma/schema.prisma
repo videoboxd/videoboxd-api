@@ -26,6 +26,7 @@ model User {
 
   avatarUrl String? // https://api.dicebear.com/9.x/open-peeps/svg?seed=SiapaNamanya
 
+  videos    Video[]
   reviews   Review[]
   comments  ReviewComment[]
   playlists Playlist[]
@@ -36,8 +37,6 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  Video Video[]
 }
 
 model Video {
@@ -52,18 +51,18 @@ model Video {
   // https://instagram.com/p/VIDEO_ID
   title           String
   description     String?
-  thumbnail       String?
+  thumbnailUrl    String?
   uploadedAt      DateTime?
 
   platformId String
-  platform   Platform @relation(fields: [platformId], references: [id])
+  platform   Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
 
   reviews    Review[]
   categories Category[]
   playlists  Playlist[]
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -89,7 +88,7 @@ model Review {
   id String @id @default(ulid())
 
   videoId String
-  video   Video  @relation(fields: [videoId], references: [id])
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
 
   rating Int // 1-5
   text   String
@@ -98,18 +97,20 @@ model Review {
   comments ReviewComment[]
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model ReviewComment {
-  id       String @id @default(ulid())
+  id String @id @default(ulid())
+
   reviewId String
-  review   Review @relation(fields: [reviewId], references: [id])
-  userId   String
-  user     User   @relation(fields: [userId], references: [id])
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   text String
 
@@ -118,9 +119,10 @@ model ReviewComment {
 }
 
 model Playlist {
-  id     String @id @default(ulid())
+  id String @id @default(ulid())
+
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   title  String
   videos Video[]
@@ -130,19 +132,21 @@ model Playlist {
 }
 
 model Like {
-  id     String @id @default(ulid())
+  id String @id @default(ulid())
+
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   reviewId String
-  review   Review @relation(fields: [reviewId], references: [id])
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model Follow {
-  id         String @id @default(ulid())
+  id String @id @default(ulid())
+
   followerId String
-  follower   User   @relation("UserFollowing", fields: [followerId], references: [id])
+  follower   User   @relation("UserFollowing", fields: [followerId], references: [id], onDelete: Cascade)
 
   followingId String
-  following   User   @relation("UserFollowers", fields: [followingId], references: [id])
+  following   User   @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
 }
