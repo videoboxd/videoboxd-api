@@ -18,7 +18,6 @@ export const setAuthCookies = async (
   await setSignedCookie(c, "refresh_token", refreshToken, cookieSecret, {
     path: "/",
     httpOnly: true,
-
     maxAge: 7 * 24 * 60 * 60, // 7 days in seconds
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     sameSite: "Strict",
