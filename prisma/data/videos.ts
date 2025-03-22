@@ -13,6 +13,7 @@ export const videos = [
     updatedAt: "2025-03-04T10:02:29.804Z",
     platformSlug: "youtube",
     userUsername: "Dery",
+    categorySlug: "entertainment",
   },
   {
     id: "01JNYRS0RMZJPVJY8JHVSEC1GD",
@@ -28,6 +29,7 @@ export const videos = [
     updatedAt: "2025-03-09T20:00:53.933Z",
     platformSlug: "youtube",
     userUsername: "Dery",
+    categorySlug: "music",
   },
   {
     id: "01JP3260NBBCDFT0YNGW2XNJK1",
@@ -45,6 +47,7 @@ export const videos = [
     updatedAt: "2025-03-11T09:56:36.267Z",
     platformSlug: "youtube",
     userUsername: "Dery",
+    categorySlug: "music",
   },
   {
     id: "01JP329R5A0GT9JH9EP01E7D42",
@@ -62,6 +65,7 @@ export const videos = [
     updatedAt: "2025-03-11T09:58:38.634Z",
     platformSlug: "youtube",
     userUsername: "Dery",
+    categorySlug: "music",
   },
   {
     id: "01JP33KP40KA0K67JX0685643M",
@@ -79,6 +83,7 @@ export const videos = [
     updatedAt: "2025-03-11T10:21:32.801Z",
     platformSlug: "youtube",
     userUsername: "Dery",
+    categorySlug: "music",
   },
   {
     id: "01JP34SF3P00FXNYCKZJA3JE11",
@@ -96,6 +101,7 @@ export const videos = [
     updatedAt: "2025-03-11T10:42:10.807Z",
     platformSlug: "youtube",
     userUsername: "Dery",
+    categorySlug: "music",
   },
   {
     id: "01JP356X0VPA5HJG146PXAXQVZ",
@@ -113,6 +119,7 @@ export const videos = [
     updatedAt: "2025-03-11T10:49:31.036Z",
     platformSlug: "youtube",
     userUsername: "Ipung",
+    categorySlug: "music",
   },
   {
     id: "01JP36F48TR4K9P34C542VF3K9",
@@ -130,6 +137,7 @@ export const videos = [
     updatedAt: "2025-03-11T11:11:29.179Z",
     platformSlug: "youtube",
     userUsername: "Ipung",
+    categorySlug: "music",
   },
   {
     id: "01JP6GRFF9RKP59JQXR9E3K00J",
@@ -148,6 +156,7 @@ export const videos = [
     updatedAt: "2025-03-12T18:09:04.616Z",
     platformSlug: "youtube",
     userUsername: "Ipung",
+    categorySlug: "technology",
   },
   {
     id: "01JP6GTH16A7HZ4YNTRM13GF99",
@@ -165,6 +174,7 @@ export const videos = [
     updatedAt: "2025-03-12T18:10:11.751Z",
     platformSlug: "youtube",
     userUsername: "Ipung",
+    categorySlug: "technology"
   },
   {
     id: "01JP6GVS6NK80J9CZFTY4S95XM",
@@ -183,6 +193,7 @@ export const videos = [
     updatedAt: "2025-03-12T18:10:52.885Z",
     platformSlug: "youtube",
     userUsername: "Ipung",
+    categorySlug: "technology",
   },
   {
     id: "01JP6GWKKBRWP15N1KM43VYVB7",
@@ -200,6 +211,7 @@ export const videos = [
     updatedAt: "2025-03-12T18:11:19.915Z",
     platformSlug: "youtube",
     userUsername: "Ipung",
+    categorySlug: "education",
   },
   {
     id: "01JP6GXGXFXM4A9DJYQKVWXJKT",
@@ -218,6 +230,7 @@ export const videos = [
     updatedAt: "2025-03-12T18:11:49.936Z",
     platformSlug: "youtube",
     userUsername: "Rifki",
+    categorySlug: "education",
   },
   {
     id: "01JP6H7SF34S4Q10NFEZ1X9NNZ",
@@ -235,6 +248,7 @@ export const videos = [
     updatedAt: "2025-03-12T18:17:26.372Z",
     platformSlug: "youtube",
     userUsername: "Rifki",
+    categorySlug: "education",
   },
   {
     id: "01JP6H9D947VPE683KVW6YCD49",
@@ -252,6 +266,7 @@ export const videos = [
     updatedAt: "2025-03-12T18:18:19.428Z",
     platformSlug: "youtube",
     userUsername: "Rifki",
+    categorySlug: "education",
   },
   {
     id: "01JP6P3SBCZCEDQZJWS7JQ463J",
@@ -268,6 +283,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:42:38.061Z",
     platformSlug: "youtube",
     userUsername: "Rifki",
+    categorySlug: "education",
   },
   {
     id: "01JP6HG39EQFSE6DWNDKYCHK4A",
@@ -285,6 +301,7 @@ export const videos = [
     updatedAt: "2025-03-12T18:21:58.574Z",
     platformSlug: "youtube",
     userUsername: "Rifki",
+    categorySlug: "music",
   },
   {
     id: "01JP6NVN67KDX8BP1EQ5SYWJZM",
@@ -301,6 +318,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:38:11.655Z",
     platformSlug: "youtube",
     userUsername: "Rifki",
+    categorySlug: "music",
   },
   {
     id: "01JP6NWGFXABSBZJM7V60B2T53",
@@ -317,6 +335,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:38:39.614Z",
     platformSlug: "youtube",
     userUsername: "Rifki",
+    categorySlug: "education",
   },
   {
     id: "01JP6NWXKXSJZ8YSZYTDTRRZKF",
@@ -333,6 +352,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:38:53.054Z",
     platformSlug: "youtube",
     userUsername: "Ijun",
+    categorySlug: "technology",
   },
   {
     id: "01JP6NXVT8S5V7SNRBG3KYEPT3",
@@ -349,6 +369,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:39:23.976Z",
     platformSlug: "youtube",
     userUsername: "Ijun",
+    categorySlug: "technology",
   },
   {
     id: "01JP6NYEA9JXR6AH9H2C3KBVAH",
@@ -365,6 +386,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:39:42.922Z",
     platformSlug: "youtube",
     userUsername: "Ijun",
+    categorySlug: "education",
   },
   {
     id: "01JP6NYWCQYM52CBQ8MBFY3Q5N",
@@ -381,6 +403,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:39:57.336Z",
     platformSlug: "youtube",
     userUsername: "Ijun",
+    categorySlug: "education",
   },
   {
     id: "01JP6P0736W0C27Q987S9KQ32C",
@@ -398,6 +421,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:40:41.062Z",
     platformSlug: "youtube",
     userUsername: "Ijun",
+    categorySlug: "education",
   },
   {
     id: "01JP6P0NJ93HA851V7ZQQMC3NR",
@@ -414,6 +438,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:40:55.881Z",
     platformSlug: "youtube",
     userUsername: "Ijun",
+    categorySlug: "education",
   },
   {
     id: "01JP6P2EP6E8SKRMCC4Y05JHE4",
@@ -430,6 +455,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:41:54.375Z",
     platformSlug: "youtube",
     userUsername: "Ijun",
+    categorySlug: "education",
   },
   {
     id: "01JP6P35BX8NQQKDSVXPWM0JVC",
@@ -446,6 +472,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:42:17.597Z",
     platformSlug: "youtube",
     userUsername: "Ijun",
+    categorySlug: "education",
   },
   {
     id: "01JP6P4C85MQTVEDGGR8JXMM5M",
@@ -462,6 +489,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:42:57.413Z",
     platformSlug: "youtube",
     userUsername: "Ijun",
+    categorySlug: "education",
   },
   {
     id: "01JP6P4X0K6QWCMFW13APBGB3C",
@@ -478,6 +506,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:43:14.579Z",
     platformSlug: "youtube",
     userUsername: "Ijun",
+    categorySlug: "education",
   },
   {
     id: "01JP6P6Y4EB9DN3DT2QVC6TFRN",
@@ -494,6 +523,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:44:21.262Z",
     platformSlug: "youtube",
     userUsername: "Fathur",
+    categorySlug: "education",
   },
   {
     id: "01JP6PB2PF4PYGCPY7J0XDBW4A",
@@ -510,6 +540,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:46:37.008Z",
     platformSlug: "youtube",
     userUsername: "Fathur",
+    categorySlug: "technology",
   },
   {
     id: "01JP6PBRPT1XG0VNMAGYDMDWJM",
@@ -526,6 +557,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:46:59.546Z",
     platformSlug: "youtube",
     userUsername: "Fathur",
+    categorySlug: "education",
   },
   {
     id: "01JP6PCADFN177CJJTFJABX8RV",
@@ -543,6 +575,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:47:17.679Z",
     platformSlug: "youtube",
     userUsername: "Fathur",
+    categorySlug: "education",
   },
   {
     id: "01JP6PDPMNABDNAJJ8NR7T4SZB",
@@ -559,6 +592,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:48:02.965Z",
     platformSlug: "youtube",
     userUsername: "Fathur",
+    categorySlug: "technology",
   },
   {
     id: "01JP6PGDKPAWAC3BAG3WJRQ90M",
@@ -575,6 +609,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:49:32.023Z",
     platformSlug: "youtube",
     userUsername: "Fathur",
+    categorySlug: "technology",
   },
   {
     id: "01JP6PGN1F8G9SCE1PFW5H1NK9",
@@ -592,6 +627,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:49:39.631Z",
     platformSlug: "youtube",
     userUsername: "Fathur",
+    categorySlug: "education",
   },
   {
     id: "01JP6PGX5PYZSSVGBMSCD39MZF",
@@ -609,6 +645,7 @@ export const videos = [
     updatedAt: "2025-03-12T19:49:47.958Z",
     platformSlug: "youtube",
     userUsername: "Haidar",
+    categorySlug: "politic",
   },
   {
     id: "01JP6PH3W7AR8Z37BB6F0JDFGN",
@@ -626,5 +663,6 @@ export const videos = [
     updatedAt: "2025-03-12T19:49:54.823Z",
     platformSlug: "youtube",
     userUsername: "Haidar",
+    categorySlug: "politic",
   },
 ];

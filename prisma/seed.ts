@@ -47,38 +47,54 @@ async function main() {
     console.info(`👤 User: ${upsertedUser.username}`);
   }
 
-  // Videos
-  for (const videoData of videos) {
-    const platform = await prisma.platform.findUnique({
-      where: { slug: videoData.platformSlug },
-    });
-    const user = await prisma.user.findUnique({
-      where: { username: videoData.userUsername },
-    });
+ // Videos
+for (const videoData of videos) {
+  const platform = await prisma.platform.findUnique({
+    where: { slug: videoData.platformSlug },
+  });
+  const user = await prisma.user.findUnique({
+    where: { username: videoData.userUsername },
+  });
 
-    if (!platform || !user) {
-      console.log("platform atau user tidak ditemukan");
-      continue;
-    }
-
-    const { platformSlug, userUsername, ...videoDataWithoutSlugAndUsername } =
-      videoData;
-
-    const video = await prisma.video.upsert({
-      where: { platformVideoId: videoData.platformVideoId },
-      update: {
-        ...videoDataWithoutSlugAndUsername,
-        platformId: platform.id,
-        userId: user.id,
-      },
-      create: {
-        ...videoDataWithoutSlugAndUsername,
-        platformId: platform.id,
-        userId: user.id,
-      },
-    });
-    console.info(`📺 Video: ${video.title}`);
+  if (!platform || !user) {
+    console.log("platform atau user tidak ditemukan");
+    continue;
   }
+
+  const { platformSlug, userUsername, categorySlug, ...videoDataWithoutSlugAndUsername } =
+    videoData;
+
+  const category = await prisma.category.findUnique({
+    where: { slug: categorySlug },
+  });
+
+  // Periksa keberadaan kategori
+  if (!category) {
+    console.log(`Kategori dengan slug ${categorySlug} tidak ditemukan.`);
+    continue;
+  }
+
+  const video = await prisma.video.upsert({
+    where: { platformVideoId: videoData.platformVideoId },
+    update: {
+      ...videoDataWithoutSlugAndUsername,
+      platformId: platform.id,
+      userId: user.id,
+      categories: {
+        connect: { id: category.id }, // Perbaiki objek connect
+      },
+    },
+    create: {
+      ...videoDataWithoutSlugAndUsername,
+      platformId: platform.id,
+      userId: user.id,
+      categories: {
+        connect: { id: category.id }, // Perbaiki objek connect
+      },
+    },
+  });
+  console.info(` Video: ${video.title}`);
+}
 
   // Reviews
   for (const reviewData of reviews) {
