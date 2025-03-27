@@ -1,6 +1,7 @@
 # Videoboxd API
 
-Videoboxd Backend API.
+Videoboxd Backend API.   
+this backend is using scalar
 
 ## REST API
 
@@ -53,7 +54,7 @@ Open <http://localhost:3000>.
 
 ## Production
 
-Make sure the `DATABASE_URL` is configured in `.env` file for usage with Docker Compose.
+Make sure the `DATABASE_URL` and others is configured in `.env` file for usage with Docker Compose.
 
 Build the Docker image:
 
