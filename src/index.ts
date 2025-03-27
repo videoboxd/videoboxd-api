@@ -12,7 +12,15 @@ import reviewsRoute from "./features/review/route";
 const app = new OpenAPIHono();
 
 app.use(logger());
-app.use(cors({ origin: "*" }));
+app.use(
+  "/*",
+  cors({
+    origin: [Bun.env.FE_URL!, Bun.env.BE_URL!],
+    allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowHeaders: ["Content-Type", "Authorization", "Set-Cookie"],
+    credentials: true,
+  })
+);
 
 app.doc("/openapi.json", {
   openapi: "3.1.0",
