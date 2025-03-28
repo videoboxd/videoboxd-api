@@ -13,7 +13,37 @@ export interface AppVariables extends JWTPayload {
   exp: number;
 }
 
-export const authMiddleware: MiddlewareHandler = async (c, next) => {
+export const authJWTMiddleware: MiddlewareHandler = async (c, next) => {
+  const authHeader = c.req.header("Authorization");
+  const accessToken = authHeader?.split(" ")[1];
+
+  console.log({ accessToken });
+
+  if (!accessToken) {
+    throw new HTTPException(401, { message: "Unauthorized" });
+  }
+
+  const payload = (await verify(
+    accessToken,
+    Bun.env.ACCESS_TOKEN_SECRET!
+  )) as AppVariables;
+
+  console.log({ payload });
+
+  const user = await prisma.user.findUnique({
+    where: { id: payload.id },
+  });
+  console.log({ user });
+
+  if (!user) {
+    throw new HTTPException(404, { message: "User not found" });
+  }
+  c.set("user", payload);
+
+  await next();
+};
+
+export const authCookieMiddleware: MiddlewareHandler = async (c, next) => {
   const accessToken = await getSignedCookie(
     c,
     Bun.env.COOKIE_SECRET!,

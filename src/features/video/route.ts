@@ -1,6 +1,10 @@
 import { API_TAGS } from "@/config";
 import { OpenAPIHono, z } from "@hono/zod-openapi";
-import { authMiddleware, AppVariables } from "@/middleware/auth-middleware";
+import {
+  authCookieMiddleware,
+  AppVariables,
+  authJWTMiddleware,
+} from "@/middleware/auth-middleware";
 import { HTTPException } from "hono/http-exception";
 import { CreateVideoSchema, UpdateVideoSchema } from "./schema";
 import { VideoCompleteSchema } from "@/features/video/schema";
@@ -92,7 +96,7 @@ videosRoute.openapi(
     description: "Create a new video entry.",
     tags: API_TAGS.VIDEOS,
     security: [{ AuthorizationBearer: [] }],
-    middleware: authMiddleware,
+    middleware: authJWTMiddleware,
     request: {
       body: { content: { "application/json": { schema: CreateVideoSchema } } },
     },
@@ -127,7 +131,7 @@ videosRoute.openapi(
     description: "Deletes a video by ID.",
     tags: API_TAGS.VIDEOS,
     security: [{ accessTokenCookie: [] }, { refreshTokenCookie: [] }],
-    middleware: authMiddleware,
+    middleware: authJWTMiddleware,
     request: {
       params: z.object({ identifier: z.string() }),
     },
@@ -180,7 +184,7 @@ videosRoute.openapi(
     description: "Updates an existing video by ID.",
     tags: API_TAGS.VIDEOS,
     security: [{ accessTokenCookie: [] }, { refreshTokenCookie: [] }],
-    middleware: authMiddleware,
+    middleware: authJWTMiddleware,
     request: {
       params: z.object({ identifier: z.string() }),
       body: { content: { "application/json": { schema: UpdateVideoSchema } } },

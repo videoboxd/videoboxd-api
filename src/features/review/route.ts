@@ -2,7 +2,10 @@ import { API_TAGS } from "@/config";
 import { OpenAPIHono, z } from "@hono/zod-openapi";
 import { Context } from "hono";
 import { reviewService } from "./service";
-import { authMiddleware, AppVariables } from "@/middleware/auth-middleware";
+import {
+  authCookieMiddleware,
+  AppVariables,
+} from "@/middleware/auth-middleware";
 import { CreateReviewSchema, UpdateReviewSchema } from "./schema";
 import { ReviewSchema } from "@prisma/generated/zod";
 import { HTTPException } from "hono/http-exception";
@@ -108,7 +111,7 @@ reviewsRoute.openapi(
     description: "Create a new review entry",
     tags: API_TAGS.REVIEWS,
     security: [{ AuthorizationBearer: [] }],
-    middleware: authMiddleware,
+    middleware: authJWTMiddleware,
     request: {
       body: { content: { "application/json": { schema: CreateReviewSchema } } },
     },
@@ -154,7 +157,7 @@ reviewsRoute.openapi(
     summary: "Updates an existing review by ID.",
     tags: API_TAGS.REVIEWS,
     security: [{ AuthorizationBearer: [] }],
-    middleware: authMiddleware,
+    middleware: authJWTMiddleware,
     request: {
       params: z.object({ identifier: z.string() }),
       body: { content: { "application/json": { schema: UpdateReviewSchema } } },
@@ -204,7 +207,7 @@ reviewsRoute.openapi(
     description: "Delete a video review by ID.",
     tags: API_TAGS.REVIEWS,
     security: [{ AuthorizationBearer: [] }],
-    middleware: authMiddleware,
+    middleware: authJWTMiddleware,
     request: {
       params: z.object({ identifier: z.string() }),
     },
