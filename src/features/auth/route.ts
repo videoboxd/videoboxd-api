@@ -138,7 +138,7 @@ authRoute.openapi(
     summary: "Get current User",
     description:
       "Returns the authenticated user's data, including their ID, full name, email, and avatar URL. This endpoint requires a valid auth token cookie for authentication.",
-    middleware: [authJWTMiddleware],
+    middleware: authJWTMiddleware,
     security: [{ accessTokenCookie: [] }, { refreshTokenCookie: [] }],
     tags: API_TAGS.AUTH,
     responses: {

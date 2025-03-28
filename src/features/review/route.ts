@@ -5,6 +5,7 @@ import { reviewService } from "./service";
 import {
   authCookieMiddleware,
   AppVariables,
+  authJWTMiddleware,
 } from "@/middleware/auth-middleware";
 import { CreateReviewSchema, UpdateReviewSchema } from "./schema";
 import { ReviewSchema } from "@prisma/generated/zod";
@@ -128,10 +129,10 @@ reviewsRoute.openapi(
     },
   },
 
-  async (c: Context) => {
+  async (c) => {
     try {
       const user = c.get("user") as AppVariables;
-      const body = c.req.valid("json"); // TODO: Fix this
+      const body = c.req.valid("json");
       const reviews = await reviewService.createReview(body, user.id);
       return c.json(
         { message: "Successfully create new video review", content: reviews },

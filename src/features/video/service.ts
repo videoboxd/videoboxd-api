@@ -54,8 +54,10 @@ export const videoService = {
         where: { platformVideoId },
       });
 
+      console.log({ existingVideo });
+
       if (existingVideo) {
-        throw new HTTPException(409, { message: "Video already exists" });
+        return existingVideo;
       }
 
       const youtubeVideoInfo = await getVideoInfo(platformVideoId);

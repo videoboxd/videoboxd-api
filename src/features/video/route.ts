@@ -114,6 +114,7 @@ videosRoute.openapi(
     try {
       const user = c.get("user") as AppVariables;
       const body = c.req.valid("json");
+
       const video = await videoService.createVideo(body, user.id);
       return c.json(video, 201);
     } catch (error) {
