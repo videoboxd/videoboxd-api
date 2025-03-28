@@ -12,8 +12,8 @@ import searchRoute from "./features/search/route";
 
 const app = new OpenAPIHono();
 
+app.use("/*", cors());
 app.use(logger());
-app.use(cors());
 
 app.doc("/openapi.json", {
   openapi: "3.1.0",

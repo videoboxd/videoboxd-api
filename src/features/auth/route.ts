@@ -31,7 +31,7 @@ authRoute.openapi(
         content: {
           "application/json": {
             schema: z.object({
-              id: z.number().default(1),
+              id: z.string(),
               username: z.string().default("Fathur"),
               fullName: z.string().default("Fathur"),
               email: z.string().default("fathur@mail.com"),
@@ -81,7 +81,7 @@ authRoute.openapi(
         content: {
           "application/json": {
             schema: z.object({
-              id: z.number().default(1),
+              id: z.string(),
               fullName: z.string().default("Fathur"),
               email: z.string().default("fathur@mail.com"),
               avatarUrl: z
@@ -89,6 +89,8 @@ authRoute.openapi(
                 .default(
                   `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=Fathur&size=64`
                 ),
+              accessToken: z.string(),
+              refreshToken: z.string(),
             }),
           },
         },
@@ -133,14 +135,14 @@ authRoute.openapi(
     description:
       "Returns the authenticated user's data, including their ID, full name, email, and avatar URL. This endpoint requires a valid auth token cookie for authentication.",
     middleware: [authMiddleware],
-    security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
+    security: [{ accessTokenCookie: [] }, { refreshTokenCookie: [] }],
     tags: API_TAGS.AUTH,
     responses: {
       200: {
         content: {
           "application/json": {
             schema: z.object({
-              id: z.number().default(1),
+              id: z.string(),
               fullName: z.string().default("Fathur"),
               email: z.string().default("fathur@mail.com"),
               avatarUrl: z
@@ -189,7 +191,7 @@ authRoute.openapi(
     summary: "Refresh access token",
     description:
       "Generates a new access token using a valid refresh token. This endpoint is used to maintain user sessions without requiring re-authentication. It requires a valid refresh token cookie.",
-    security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
+    security: [{ accessTokenCookie: [] }, { refreshTokenCookie: [] }],
     tags: API_TAGS.AUTH,
     responses: {
       200: {
@@ -259,7 +261,7 @@ authRoute.openapi(
     description:
       "Logs out the current user by clearing the access token and refresh token cookies. This effectively invalidates the user's session, and they will need to log in again to access protected routes.",
     middleware: [authMiddleware],
-    security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
+    security: [{ accessTokenCookie: [] }, { refreshTokenCookie: [] }],
     tags: API_TAGS.AUTH,
     responses: {
       200: {
@@ -289,10 +291,10 @@ authRoute.openapi(
     },
   },
   async (c) => {
-    const authToken = await getSignedCookie(
+    const accessToken = await getSignedCookie(
       c,
       Bun.env.COOKIE_SECRET!,
-      "auth_token"
+      "access_token"
     );
     const refreshToken = await getSignedCookie(
       c,
@@ -300,7 +302,7 @@ authRoute.openapi(
       "refresh_token"
     );
 
-    if (!authToken || !refreshToken) {
+    if (!accessToken || !refreshToken) {
       throw new HTTPException(401, { message: "Unauthorized" });
     }
 

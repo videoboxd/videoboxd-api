@@ -7,7 +7,7 @@ export const setAuthCookies = async (
   refreshToken: string,
   cookieSecret: string
 ) => {
-  await setSignedCookie(c, "auth_token", accessToken, cookieSecret, {
+  await setSignedCookie(c, "access_token", accessToken, cookieSecret, {
     path: "/",
     httpOnly: true,
     maxAge: 24 * 60 * 60, // 1 day in seconds
@@ -25,7 +25,7 @@ export const setAuthCookies = async (
 };
 
 export const clearAuthCookies = (c: Context) => {
-  deleteCookie(c, "auth_token", {
+  deleteCookie(c, "access_token", {
     path: "/",
     httpOnly: true,
   });

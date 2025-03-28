@@ -126,7 +126,7 @@ videosRoute.openapi(
     summary: "Delete a video",
     description: "Deletes a video by ID.",
     tags: API_TAGS.VIDEOS,
-    security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
+    security: [{ accessTokenCookie: [] }, { refreshTokenCookie: [] }],
     middleware: authMiddleware,
     request: {
       params: z.object({ identifier: z.string() }),
@@ -179,7 +179,7 @@ videosRoute.openapi(
     summary: "Update a video",
     description: "Updates an existing video by ID.",
     tags: API_TAGS.VIDEOS,
-    security: [{ authTokenCookie: [] }, { refreshTokenCookie: [] }],
+    security: [{ accessTokenCookie: [] }, { refreshTokenCookie: [] }],
     middleware: authMiddleware,
     request: {
       params: z.object({ identifier: z.string() }),

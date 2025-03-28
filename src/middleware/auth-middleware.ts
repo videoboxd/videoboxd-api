@@ -14,10 +14,10 @@ export interface AppVariables extends JWTPayload {
 }
 
 export const authMiddleware: MiddlewareHandler = async (c, next) => {
-  const authToken = await getSignedCookie(
+  const accessToken = await getSignedCookie(
     c,
     Bun.env.COOKIE_SECRET!,
-    "auth_token"
+    "access_token"
   );
   const refreshToken = await getSignedCookie(
     c,
@@ -25,12 +25,12 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
     "refresh_token"
   );
 
-  if (!authToken || !refreshToken) {
+  if (!accessToken || !refreshToken) {
     throw new HTTPException(401, { message: "Unauthorized" });
   }
 
   const payload = (await verify(
-    authToken,
+    accessToken,
     Bun.env.ACCESS_TOKEN_SECRET!
   )) as AppVariables;
 
