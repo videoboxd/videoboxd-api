@@ -3,4 +3,5 @@ export const API_TAGS = {
   USER: ["User"],
   VIDEOS: ["Videos"],
   REVIEWS: ["Reviews"],
+  SEARCH: ["Search"],
 };

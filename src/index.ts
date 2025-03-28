@@ -8,6 +8,7 @@ import authRoute from "./features/auth/route";
 import usersRoute from "./features/user/route";
 import videosRoute from "./features/video/route";
 import reviewsRoute from "./features/review/route";
+import searchRoute from "./features/search/route";
 
 const app = new OpenAPIHono();
 
@@ -46,6 +47,7 @@ app.route("/auth", authRoute);
 app.route("/users", usersRoute);
 app.route("/videos", videosRoute);
 app.route("/reviews", reviewsRoute);
+app.route("/search", searchRoute);
 
 // Error Handling
 app.onError(async (err, c) => {
