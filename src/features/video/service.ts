@@ -12,8 +12,9 @@ import { Prisma } from "@prisma/client";
 import { getVideoInfo } from "@/lib/youtube";
 
 export const videoService = {
-  getAllVideos: async () => {
+  getAllVideos: async (q?: string) => {
     return await prisma.video.findMany({
+      where: q ? { title: { contains: q, mode: "insensitive" } } : undefined,
       include: {
         platform: true,
         categories: true,
