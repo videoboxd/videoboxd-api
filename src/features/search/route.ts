@@ -55,9 +55,7 @@ searchRoute.openapi(
             const query = SearchQuerySchema.parse(c.req.query());
             const results = await searchService(query.q);
 
-            return c.json({
-                data: results,
-            }, 200);
+            return c.json(results, 200);
         } catch (error) {
             if (error instanceof z.ZodError) {
                 return handleErrorResponse(c, "Invalid search parameters", 400);
