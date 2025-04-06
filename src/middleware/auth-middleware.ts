@@ -17,8 +17,6 @@ export const authJWTMiddleware: MiddlewareHandler = async (c, next) => {
   const authHeader = c.req.header("Authorization");
   const accessToken = authHeader?.split(" ")[1];
 
-  // console.log({ accessToken });
-
   if (!accessToken) {
     throw new HTTPException(401, { message: "Unauthorized" });
   }
@@ -28,12 +26,9 @@ export const authJWTMiddleware: MiddlewareHandler = async (c, next) => {
     Bun.env.ACCESS_TOKEN_SECRET!
   )) as AppVariables;
 
-  // console.log({ payload });
-
   const user = await prisma.user.findUnique({
     where: { id: payload.id },
   });
-  // console.log({ user });
 
   if (!user) {
     throw new HTTPException(404, { message: "User not found" });

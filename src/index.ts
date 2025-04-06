@@ -13,7 +13,7 @@ import { categoriesRoute } from "./features/category/route";
 
 const app = new OpenAPIHono();
 
-app.use("/*", cors());
+app.use(cors());
 app.use(logger());
 
 app.doc("/openapi.json", {

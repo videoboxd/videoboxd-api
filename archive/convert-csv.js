@@ -30,11 +30,12 @@ fs.createReadStream(csvFilePath)
     }));
 
     // Generate output string directly
-    const outputString = `export const videos = ${JSON.stringify(videos, null, 2).replace(
-      /"([^(")"]+)":/g,
-      "$1:"
-    )};`;
+    const outputString = `export const videos = ${JSON.stringify(
+      videos,
+      null,
+      2
+    ).replace(/"([^(")"]+)":/g, "$1:")};`;
 
     fs.writeFileSync(outputFilePath, outputString);
-    console.log(`Conversion complete! Data written to ${outputFilePath}`);
+    console.info(`Conversion complete! Data written to ${outputFilePath}`);
   });

@@ -55,8 +55,6 @@ export const videoService = {
         where: { platformVideoId },
       });
 
-      console.log({ existingVideo });
-
       if (existingVideo) {
         return existingVideo;
       }
