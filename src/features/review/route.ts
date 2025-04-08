@@ -3,11 +3,10 @@ import { OpenAPIHono, z } from "@hono/zod-openapi";
 import { Context } from "hono";
 import { reviewService } from "./service";
 import {
-  authCookieMiddleware,
   AppVariables,
   authJWTMiddleware,
 } from "@/middleware/auth-middleware";
-import { CreateReviewSchema, UpdateReviewSchema } from "./schema";
+import { CreateReviewParamSchema, CreateReviewBodySchema, UpdateReviewSchema } from "./schema";
 import { ReviewSchema } from "@prisma/generated/zod";
 import { HTTPException } from "hono/http-exception";
 
@@ -24,11 +23,14 @@ reviewsRoute.openapi(
     summary: "Get all reviews",
     description: "Return all movie review list",
     tags: API_TAGS.REVIEWS,
+    request: {
+      query: z.object({videoId: z.string().optional()}),
+    },
     responses: {
       200: {
         description: "Successfully get all reviews",
         content: {
-          "application/json": { schema: z.object({}) },
+          "application/json": { schema: ReviewSchema },
         },
       },
       500: {
@@ -37,16 +39,11 @@ reviewsRoute.openapi(
       },
     },
   },
-  async (c: Context) => {
+  async (c) => {
     try {
-      const reviews = await reviewService.getAllReviews();
-      return c.json(
-        {
-          message: "Successfully retrieved all video reviews",
-          content: reviews,
-        },
-        200
-      );
+      const { videoId } = c.req.valid('query');
+      const reviews = await reviewService.getAllReviews(videoId);
+      return c.json(reviews, 200);
     } catch (error) {
       return handleErrorResponse(
         c,
@@ -107,14 +104,15 @@ reviewsRoute.openapi(
 reviewsRoute.openapi(
   {
     method: "post",
-    path: "/",
+    path: "/{platformVideoId}",
     summary: "New review entry",
     description: "Create a new review entry",
     tags: API_TAGS.REVIEWS,
     security: [{ AuthorizationBearer: [] }],
     middleware: authJWTMiddleware,
     request: {
-      body: { content: { "application/json": { schema: CreateReviewSchema } } },
+      params: CreateReviewParamSchema,
+      body: { content: { "application/json": { schema: CreateReviewBodySchema } } },
     },
     responses: {
       201: {
@@ -132,8 +130,9 @@ reviewsRoute.openapi(
   async (c) => {
     try {
       const user = c.get("user") as AppVariables;
+      const { platformVideoId } = c.req.valid("param");
       const body = c.req.valid("json");
-      const reviews = await reviewService.createReview(body, user.id);
+      const reviews = await reviewService.createReview(platformVideoId, body, user.id);
       return c.json(
         { message: "Successfully create new video review", content: reviews },
         201

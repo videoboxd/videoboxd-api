@@ -1,19 +1,26 @@
 import { prisma } from "@/lib/prisma";
 import { z } from "@hono/zod-openapi";
-import { CreateReviewSchema, UpdateReviewSchema } from "./schema";
+import { CreateReviewParamSchema, CreateReviewBodySchema, UpdateReviewSchema } from "./schema";
 import { HTTPException } from "hono/http-exception";
 
 export const reviewService = {
-  getAllReviews: async () => {
-    const result = await prisma.review.findMany();
+  getAllReviews: async (videoId?: string) => {
+    const result = await prisma.review.findMany({
+      where: videoId ? { videoId: { contains: videoId } } : undefined,
+      include: { user: true },
+      orderBy: { createdAt: "desc" },
+    });
     
     return result;
   },
 
   getReviewByIdentifier: async (identifier: string) => {
-    const review = await prisma.review.findUnique({
+    const review = await prisma.review.findFirst({
       where: {
-        id: identifier,
+        OR: [
+          { id: identifier },
+          { videoId: identifier },
+        ],
       },
     });
 
@@ -24,10 +31,11 @@ export const reviewService = {
     return review;
   },
 
-  createReview: async (body: z.infer<typeof CreateReviewSchema>, userId: string) => {
+  createReview: async (platformVideoId: string, body: z.infer<typeof CreateReviewBodySchema>, userId: string) => {
+    CreateReviewParamSchema.parse({ platformVideoId })
     const checkVideo = await prisma.video.findUnique({
       where: {
-        id: body.videoId
+        id: platformVideoId
       }
     });
 
@@ -38,7 +46,8 @@ export const reviewService = {
     const review = await prisma.review.create({
       data: {
         ...body,
-        userId: userId,
+        userId,
+        videoId: platformVideoId,
       },
     });
 
