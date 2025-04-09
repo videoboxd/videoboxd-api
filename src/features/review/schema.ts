@@ -1,7 +1,10 @@
-import { ReviewSchema } from "@prisma/generated/zod";
+import { VideoSchema, ReviewSchema } from "@prisma/generated/zod";
 
-export const CreateReviewSchema = ReviewSchema.pick({
-  videoId: true,
+export const CreateReviewParamSchema = VideoSchema.pick({
+  platformVideoId: true
+});
+
+export const CreateReviewBodySchema = ReviewSchema.pick({
   rating: true,
   text: true
 });
