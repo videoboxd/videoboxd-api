@@ -18,6 +18,7 @@ export const videoService = {
       include: {
         platform: true,
         categories: true,
+        reviews:true,
       },
       orderBy: { createdAt: "desc" },
     });
