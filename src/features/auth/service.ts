@@ -9,6 +9,7 @@ export const registerUser = async ({
   username,
   email,
   password,
+  fullName,
 }: RegisterUser): Promise<Partial<User>> => {
   const existingUser = await prisma.user.findUnique({ where: { username } });
 
@@ -33,7 +34,7 @@ export const registerUser = async ({
       username,
       email,
       password: hashedPassword,
-      fullName: username,
+      fullName: fullName,
       avatarUrl: `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${username}&size=64`,
     },
   });
