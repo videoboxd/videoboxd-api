@@ -1,5 +1,6 @@
 import { UserSchema } from "prisma/generated/zod";
 import { z } from "zod";
+import { VideosCompleteSchema } from "../video/schema";
 
 export const UserSearchParam = z.object({
   identifier: z.string().max(255).openapi({
@@ -15,4 +16,6 @@ export const GetUsers = UserSchema.omit({
 export const GetUserDetail = UserSchema.omit({
   email: true,
   password: true,
+}).extend({
+  videos: VideosCompleteSchema,
 });

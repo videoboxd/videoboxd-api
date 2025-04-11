@@ -2,7 +2,7 @@ import { HTTPException } from "hono/http-exception";
 import { sign, verify } from "hono/jwt";
 import { prisma } from "@/lib/prisma";
 import { User } from "@prisma/client";
-import { LoginUser, RegisterUser } from "./schema";
+import { LoginUserSchema, RegisterUserSchema } from "./schema";
 import { AppVariables } from "@/middleware/auth-middleware";
 
 export const registerUser = async ({

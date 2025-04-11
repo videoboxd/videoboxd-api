@@ -26,7 +26,9 @@ authRoute.openapi(
     tags: API_TAGS.AUTH,
     request: {
       body: {
-        content: { "application/json": { schema: authSchema.RegisterUser } },
+        content: {
+          "application/json": { schema: authSchema.RegisterUserSchema },
+        },
       },
     },
     responses: {
@@ -73,7 +75,7 @@ authRoute.openapi(
       body: {
         content: {
           "application/json": {
-            schema: authSchema.LoginUser,
+            schema: authSchema.LoginUserSchema,
           },
         },
       },
