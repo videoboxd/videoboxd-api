@@ -84,6 +84,7 @@ export const videoService = {
           originalUrl,
           title: videoInfo.title,
           description: videoInfo.description,
+          creator: videoInfo.channelTitle,
           thumbnailUrl: videoInfo.thumbnails.maxres.url,
           uploadedAt: videoInfo.publishedAt,
           userId,
@@ -97,7 +98,7 @@ export const videoService = {
         },
       });
 
-      return video;
+      return videoInfo;
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
