@@ -18,6 +18,7 @@ export const VideoCompleteSchema = VideoSchema.extend({
       })
     )
     .optional(),
+  reviews: z.array(ReviewSchema),
 });
 
 export const VideosCompleteSchema = z.array(VideoCompleteSchema);

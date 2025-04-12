@@ -27,7 +27,11 @@ videosRoute.openapi(
     description: "Returns a list of all videos in the system.",
     tags: API_TAGS.VIDEOS,
     request: {
-      query: z.object({q: z.string().optional()}),
+      query: z.object({
+        q: z.string().optional(),
+        offset: z.string().optional(),
+        limit: z.string().optional(),
+      }),
     },
     responses: {
       200: {
@@ -44,8 +48,12 @@ videosRoute.openapi(
   },
   async (c) => {
     try {
-      const { q } = c.req.valid('query');
-      const videos = await videoService.getAllVideos(q);
+      const { q, offset, limit } = c.req.valid("query");
+      const videos = await videoService.getAllVideos(
+        q,
+        Number(offset),
+        Number(limit)
+      );
       return c.json(videos, 200);
     } catch (error) {
       return handleErrorResponse(c, `Failed to retrieve videos: ${error}`, 500);

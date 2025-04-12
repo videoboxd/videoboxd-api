@@ -2,11 +2,13 @@ import { API_TAGS } from "@/config";
 import { OpenAPIHono, z } from "@hono/zod-openapi";
 import { Context } from "hono";
 import { reviewService } from "./service";
+import { AppVariables, authJWTMiddleware } from "@/middleware/auth-middleware";
 import {
-  AppVariables,
-  authJWTMiddleware,
-} from "@/middleware/auth-middleware";
-import { CreateReviewParamSchema, CreateReviewBodySchema, UpdateReviewSchema } from "./schema";
+  CreateReviewParamSchema,
+  CreateReviewBodySchema,
+  UpdateReviewSchema,
+  GetReviewSchema,
+} from "./schema";
 import { ReviewSchema } from "@prisma/generated/zod";
 import { HTTPException } from "hono/http-exception";
 
@@ -24,13 +26,13 @@ reviewsRoute.openapi(
     description: "Return all movie review list",
     tags: API_TAGS.REVIEWS,
     request: {
-      query: z.object({videoId: z.string().optional()}),
+      query: z.object({ videoId: z.string().optional() }),
     },
     responses: {
       200: {
         description: "Successfully get all reviews",
         content: {
-          "application/json": { schema: ReviewSchema },
+          "application/json": { schema: z.array(GetReviewSchema) },
         },
       },
       500: {
@@ -41,7 +43,7 @@ reviewsRoute.openapi(
   },
   async (c) => {
     try {
-      const { videoId } = c.req.valid('query');
+      const { videoId } = c.req.valid("query");
       const reviews = await reviewService.getAllReviews(videoId);
       return c.json(reviews, 200);
     } catch (error) {
@@ -112,7 +114,9 @@ reviewsRoute.openapi(
     middleware: authJWTMiddleware,
     request: {
       params: CreateReviewParamSchema,
-      body: { content: { "application/json": { schema: CreateReviewBodySchema } } },
+      body: {
+        content: { "application/json": { schema: CreateReviewBodySchema } },
+      },
     },
     responses: {
       201: {
@@ -132,7 +136,11 @@ reviewsRoute.openapi(
       const user = c.get("user") as AppVariables;
       const { platformVideoId } = c.req.valid("param");
       const body = c.req.valid("json");
-      const reviews = await reviewService.createReview(platformVideoId, body, user.id);
+      const reviews = await reviewService.createReview(
+        platformVideoId,
+        body,
+        user.id
+      );
       return c.json(
         { message: "Successfully create new video review", content: reviews },
         201

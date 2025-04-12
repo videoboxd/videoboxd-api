@@ -12,15 +12,17 @@ import { Prisma } from "@prisma/client";
 import { getVideoInfo } from "@/lib/youtube";
 
 export const videoService = {
-  getAllVideos: async (q?: string) => {
+  getAllVideos: async (q?: string, offset?: number, limit?: number) => {
     return await prisma.video.findMany({
       where: q ? { title: { contains: q, mode: "insensitive" } } : undefined,
       include: {
         platform: true,
         categories: true,
-        reviews:true,
+        reviews: true,
       },
       orderBy: { createdAt: "desc" },
+      skip: offset ? offset : 0,
+      take: limit ? limit : undefined,
     });
   },
 
