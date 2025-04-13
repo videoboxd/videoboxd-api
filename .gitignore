@@ -1,6 +1,8 @@
 # deps
 node_modules/
 .env
+.env.prod
+.env.production
 prisma/dbml
 prisma/generated
 yt-dlp.exe
