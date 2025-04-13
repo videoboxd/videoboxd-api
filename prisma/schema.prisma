@@ -51,6 +51,7 @@ model Video {
   // https://instagram.com/p/VIDEO_ID
   title           String
   description     String?
+  creator         String
   thumbnailUrl    String?
   uploadedAt      DateTime?
 
