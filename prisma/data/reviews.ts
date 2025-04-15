@@ -197,34 +197,4 @@ export const reviews = [
     rating: 3,
     text: "Wah, akhirnya ada tutorial Drizzle ORM yang lengkap! Udah nyoba Hono sama Bun bikin penasaran, ini pas banget buat belajar bikin API yang lebih kenceng 💪",
   },
-  {
-    videoPlatformId: "cIZqTC3I1Ds",
-    userUsername: "Fathur",
-    rating: 1,
-    text: "Wah, menarik nih! Jadi pengen tau, sistem mana yang lebih user-friendly ya buat wajib pajak? 🤔 Karena jujur, kadang suka bingung sama peraturan pajak.",
-  },
-  {
-    videoPlatformId: "MABmHY9YtpE",
-    userUsername: "Haidar",
-    rating: 3,
-    text: 'Waduh, database "maut" ini bikin merinding! Pantas saja Coretax kacau balau. Semoga ada solusi cepat, kasihan pembayar pajak yang jujur.',
-  },
-  {
-    videoPlatformId: "hwFvvLqYP0Q",
-    userUsername: "Haidar",
-    rating: 3,
-    text: "Wah, jadi penasaran hasilnya! Nonton dulu deh, penting nih buat pertimbangan isi bensin. 😉",
-  },
-  {
-    videoPlatformId: "BnXfDVja9m4",
-    userUsername: "Haidar",
-    rating: 3,
-    text: "Waduh, dipanggil DPR ini pasti panas suasananya. Semoga Pertamina bisa kasih penjelasan yang memuaskan soal Pertamax. Rakyat makin susah kalo gini. ",
-  },
-  {
-    videoPlatformId: "IJrELFkSnUA",
-    userUsername: "Haidar",
-    rating: 3,
-    text: "Waduh, bahaya nih! Kirain udah aman pake Pertamax, taunya kualitasnya gitu. Jadi ragu mau isi di SPBU mana sekarang. 🤨",
-  },
 ];

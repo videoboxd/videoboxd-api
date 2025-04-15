@@ -197,34 +197,4 @@ export const reviewComments = [
     userUsername: "Dery",
     text: "Iya nih, Drizzle ORM emang menarik banget buat di-explore! Apalagi kalau dikombinasiin sama Hono sama Bun, pasti bikin API jadi lebih efisien dan kenceng."
   },
-  {
-    reviewVideoPlatformId: "cIZqTC3I1Ds",
-    reviewUserUsername: "Fathur",
-    userUsername: "Dery",
-    text: "Wah, bener banget nih! Aku juga sering bingung sama aturan pajak yang kayaknya ribet banget. 🤔 Menurutku, kalo sistemnya bisa lebih sederhana dan jelas, pasti lebih user"
-  },
-  {
-    reviewVideoPlatformId: "MABmHY9YtpE",
-    reviewUserUsername: "Haidar",
-    userUsername: "Dery",
-    text: "Benar banget! Database ‘maut’ ini memang seram efeknya. Coretax jadi berantakan, dan pembayar pajak yang taat malah jadi korban. Semoga pihak berwenang cepat memperbaiki"
-  },
-  {
-    reviewVideoPlatformId: "hwFvvLqYP0Q",
-    reviewUserUsername: "Haidar",
-    userUsername: "Dery",
-    text: "Wah, bener banget nih! Penting banget buat tau biar gak salah pilih bensin, apalagi buat hemat budget. Nonton dulu ah, siapa tau ada tips yang berman"
-  },
-  {
-    reviewVideoPlatformId: "BnXfDVja9m4",
-    reviewUserUsername: "Haidar",
-    userUsername: "Dery",
-    text: "Setuju banget, dipanggil DPR gini memang harus ada transparansi dan penjelasan yang jelas dari Pertamina soal masalah Pertamax. Rakyat udah banyak yang kelimpungan, kenaikan harga b"
-  },
-  {
-    reviewVideoPlatformId: "IJrELFkSnUA",
-    reviewUserUsername: "Haidar",
-    userUsername: "Dery",
-    text: "Bener juga, ya. Aku juga kaget denger kabar soal kualitas Pertamax. Padahal selama ini nganggap itu salah satu bahan bakar terpercaya. Sekarang jadi bingung mau isi di mana."
-  }
 ];
