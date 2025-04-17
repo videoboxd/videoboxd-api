@@ -54,6 +54,7 @@ videosRoute.openapi(
         Number(offset),
         Number(limit)
       );
+
       return c.json(videos, 200);
     } catch (error) {
       return handleErrorResponse(c, `Failed to retrieve videos: ${error}`, 500);

@@ -1,5 +1,5 @@
 import { OpenAPIHono, z } from "@hono/zod-openapi";
-import { apiReference } from "@scalar/hono-api-reference";
+import { Scalar } from "@scalar/hono-api-reference";
 import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
@@ -27,9 +27,9 @@ app.doc("/openapi.json", {
 
 app.get(
   "/",
-  apiReference({
+  Scalar({
     pageTitle: "Videoboxd API",
-    theme: "alternate",
+    theme: "kepler",
     spec: {
       url: "/openapi.json",
     },
